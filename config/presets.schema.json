@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://universal-flow.dev/schemas/presets.schema.json",
+  "title": "Universal Flow Harness Presets",
+  "description": "Model routing and execution policy for Universal Flow roles.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "presets"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "presets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cursor.normal",
+        "cursor.heavy",
+        "claude.normal",
+        "claude.heavy"
+      ],
+      "properties": {
+        "cursor.normal": {
+          "$ref": "#/$defs/preset"
+        },
+        "cursor.heavy": {
+          "$ref": "#/$defs/preset"
+        },
+        "claude.normal": {
+          "$ref": "#/$defs/preset"
+        },
+        "claude.heavy": {
+          "$ref": "#/$defs/preset"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "preset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "description", "harness", "mode", "approvalGates", "roles"],
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "harness": {
+          "enum": ["cursor", "claude"]
+        },
+        "mode": {
+          "enum": ["normal", "heavy"]
+        },
+        "approvalGates": {
+          "$ref": "#/$defs/approvalGates"
+        },
+        "roles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "orchestrator",
+            "prd-reviewer",
+            "discovery-frontend",
+            "discovery-backend",
+            "discovery-infra",
+            "requirements-planner",
+            "realign-run",
+            "ponytail",
+            "pr-sequencer",
+            "builder-frontend",
+            "builder-backend",
+            "builder-infra",
+            "final-reporter"
+          ],
+          "properties": {
+            "orchestrator": { "$ref": "#/$defs/role" },
+            "prd-reviewer": { "$ref": "#/$defs/role" },
+            "discovery-frontend": { "$ref": "#/$defs/role" },
+            "discovery-backend": { "$ref": "#/$defs/role" },
+            "discovery-infra": { "$ref": "#/$defs/role" },
+            "requirements-planner": { "$ref": "#/$defs/role" },
+            "realign-run": { "$ref": "#/$defs/role" },
+            "ponytail": { "$ref": "#/$defs/role" },
+            "pr-sequencer": { "$ref": "#/$defs/role" },
+            "builder-frontend": { "$ref": "#/$defs/role" },
+            "builder-backend": { "$ref": "#/$defs/role" },
+            "builder-infra": { "$ref": "#/$defs/role" },
+            "final-reporter": { "$ref": "#/$defs/role" }
+          }
+        }
+      }
+    },
+    "approvalGates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["technical-requirements", "pr-sequence"],
+      "properties": {
+        "technical-requirements": {
+          "const": true
+        },
+        "pr-sequence": {
+          "const": true
+        },
+        "each-pr": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "models",
+        "effort",
+        "output",
+        "concurrency",
+        "retry",
+        "reviewLoop"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "models": {
+          "description": "Ordered model candidates; the first available candidate wins.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "claude-opus-5-thinking-high",
+              "claude-sonnet-5-thinking-high",
+              "composer-2.5-fast",
+              "cursor-grok-4.5-high-fast",
+              "gpt-5.6-sol-medium",
+              "gpt-5.6-terra-medium",
+              "opus",
+              "sonnet",
+              "haiku"
+            ]
+          }
+        },
+        "effort": {
+          "description": "Requested reasoning effort passed by the orchestrator.",
+          "enum": ["low", "medium", "high", "max"]
+        },
+        "output": {
+          "description": "Required artifact returned to the invoking orchestrator.",
+          "type": "string",
+          "minLength": 1
+        },
+        "concurrency": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maxInstances"],
+          "properties": {
+            "maxInstances": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16
+            }
+          }
+        },
+        "retry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maxAttempts", "backoff"],
+          "properties": {
+            "maxAttempts": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            },
+            "backoff": {
+              "enum": ["none", "linear", "exponential"]
+            }
+          }
+        },
+        "reviewLoop": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "maxCycles", "reviewers"],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "maxCycles": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "reviewers": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "enum": ["prd-reviewer", "ponytail"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
