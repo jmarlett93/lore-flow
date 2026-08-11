@@ -92,16 +92,22 @@ claude --plugin-dir "$UNIVERSAL_FLOW_HOME"
 Confirm it appears in `/plugin`. Plugin skills are namespaced, so the orchestration skill
 is available as `/universal-flow:orchestrate-feature`.
 
-For persistent team installation, publish Universal Flow through a Claude Code plugin
-marketplace, then install it at project scope:
+For persistent installation, add this repository as a Claude Code marketplace and install
+the plugin. Project scope records the installation in the target repository:
 
 ```bash
-claude plugin marketplace add MARKETPLACE_SOURCE
-claude plugin install universal-flow@MARKETPLACE_NAME --scope project
+claude plugin marketplace add jmarlett93/universal-flow
+claude plugin install universal-flow@universal-flow --scope project
 ```
 
-This repository currently contains the plugin manifests but not a marketplace catalog;
-until one is published, use `--plugin-dir` or a managed local installation.
+After a release version is published, update an existing installation with:
+
+```bash
+claude plugin update universal-flow@universal-flow
+```
+
+For local development, continue to use `--plugin-dir`; it loads the checked-out files
+directly without marketplace caching.
 
 ### Update or remove
 
