@@ -3,19 +3,22 @@
 Agents exchange artifacts and bounded packets, never transcripts. A packet should be
 small enough to inspect in one pass; target 800 words and do not exceed 1,500 words
 excluding direct file references.
+Apply [human-readable-output.md](human-readable-output.md) to packet contents, artifact
+paths, and all returned narration.
 
 ## Required packet fields
 
-- `packet-id`, `run-id`, and intended role
+- packet display name, one-sentence purpose, `packet-id`, `run-id`, and intended role
 - objective and explicit non-goals
 - target repository and allowed scope
-- accepted input artifact IDs, versions, and paths
-- relevant named requirement IDs
-- decisions that constrain the task
+- accepted input names, with IDs, versions, and paths as metadata
+- relevant named requirements, with IDs for traceability
+- named decisions and consequences that constrain the task
 - dependencies and current status
 - required outputs and exact destination paths
 - verification expectations
 - blockers or questions the recipient may escalate
+- a separate `Open questions` section
 
 Include evidence excerpts only when a path and symbol are insufficient. Never include
 chat history, hidden reasoning, full discovery logs, or unrelated source files.
@@ -43,20 +46,24 @@ Add:
 
 The result must use named model/contract/state/behavior requirements and a dependency
 graph. Include architecture impact, durable target paths, and only meaningful versioned
-run-draft outputs. It must not rely on unstated transcript context.
+run-draft outputs. Include the diagram policy and each selected diagram's purpose, type,
+home, source requirements, and validation convention. It must not rely on unstated
+transcript context.
 
 ## Build packet
 
 Add:
 
-- PR ID, area, purpose, base dependency, and worktree/branch policy
-- exact requirement IDs in scope
+- PR name, plain-language purpose, internal ID, area, dependency, and worktree policy
+- named requirements in scope, with exact IDs as metadata
 - acceptance checks and repository-native test commands
 - allowed paths or components and explicit exclusions
 - contracts consumed or exposed
 - rollout/configuration duties
 - assigned durable architecture/ADR paths and versioned run-draft sources
+- approved diagrams assigned to those docs and their source requirement IDs
 - architecture/ADR paths explicitly outside this PR's ownership
+- diagrams explicitly outside this PR's ownership
 - required build-report path
 - approving sequence review ID and approved packet/input versions
 
@@ -68,7 +75,7 @@ approved frontend-leading stub, include exactly:
 The builder may inspect the repository for implementation details but must escalate any
 change that expands named requirements, crosses area boundaries, or touches an
 unassigned architecture document. It verifies changed documentation links, examples,
-commands, and configuration references.
+commands, configuration references, and assigned diagram syntax/rendering.
 
 Before mutation, the builder verifies that the packet and every accepted input version
 match the approving review and artifact index. Reject any draft, invalidated, replaced,
@@ -82,39 +89,45 @@ Add:
 - baseline artifact IDs
 - diff reference for post-build review
 - checks already run and summarized results
+- diagram policy, assignments, and validation evidence in scope
 
 The result separates blocking findings, non-blocking findings, rejected concerns, and
 evidence. Every finding names the violated requirement, observed risk, or YAGNI reason.
 
-## Human gate packet
+## Human approval packet
 
 Add:
 
-- gate ID and reason
+- approval checkpoint name, internal ID, and plain-language reason
 - reviewer or reviewer policy
-- exact artifact IDs and versions to review
+- readable artifact names, with exact IDs and versions as metadata
+- required diagram coverage or single-PR no-diagram statement
 - concise change summary, decisions, risks, and unresolved questions
 - allowed decisions: `approved`, `changes-requested`, or `rejected`
 - effect of each decision and resume instructions
+- numbered named approval actions and their consequences
+- each destructive action as a separate approval naming the exact target and consequence
+- a separate `Open questions` section
 
-Do not ask for approval of an unversioned artifact. A human edit is a proposed change and
-must be reconciled through `realign-run`, not treated as approval.
+Do not ask for approval of an unversioned artifact or combine destructive actions into a
+bulk approval. A human edit is a proposed change and must be reconciled through
+`realign-run`, not treated as approval.
 
 ## Realignment packet
 
 Keep this packet at 800 words or fewer. Add:
 
-- review ID, reviewer, decision, comments, and changed artifact versions
+- review name and ID, reviewer, decision, comments, and changed artifact versions
 - classifications and old/new names or design facts
 - affected architecture draft versions and durable documentation paths
 - relevant dependency edges, alias entries, and current invalidation records
 - accepted artifacts that must remain preserved
 - affected branches, worktrees, packets, builds, and their current state
-- requested output path and current pending gate
+- requested readable output path and current pending approval checkpoint
 
 Include only the graph slice reachable from changed artifacts plus immediate evidence.
 The result returns proposed aliases, transitive impacts, minimal reruns, implementation
-actions requiring approval, preserved artifact versions, and the next human gate.
+actions requiring approval, preserved artifact versions, and the next approval checkpoint.
 
 ## Return packet
 

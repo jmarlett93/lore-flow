@@ -4,10 +4,10 @@
 
 Human-approved requirements v2 feed sequence v1:
 
-- `REQ-API-1` produces `CustomerSummary`
-- `PR-01` builds the backend contract
-- `PR-02` consumes it in the frontend
-- independent `PR-03` updates hosted logging
+- **Customer card API (`REQ-API-1`)** produces `CustomerSummary`.
+- **Build customer card backend (`PR-01`)** produces the contract.
+- **Show customer card (`PR-02`)** consumes it in the frontend.
+- **Improve hosted logging (`PR-03`)** is independent.
 
 No build starts until sequence v1 is explicitly approved.
 
@@ -33,11 +33,11 @@ Expected realignment:
 
 - classify `contract-model-state-behavior-design`
 - preserve requirements v2, sequence v1, and both review records in history
-- create a candidate requirements version and impact paths through `REQ-API-1`
-- invalidate only `PR-01`, dependent `PR-02`, and their packets/builds
-- keep independent `PR-03` and its accepted packet/build valid
+- create a candidate version and trace impact through Customer card API
+- explain that Build customer card backend and Show customer card need review again
+- keep Improve hosted logging and its accepted packet/build valid
 - rerun requirements planning and pre-build Ponytail for the changed contract, then return
-  to the mandatory requirements gate
+  to the mandatory requirements approval checkpoint
 - regenerate and review only the affected sequence nodes and packets after approval
 - if affected worktrees exist, propose `keep`, `rebase`, `replace`, or `cancel`; mutate
   nothing until the reviewer approves that action

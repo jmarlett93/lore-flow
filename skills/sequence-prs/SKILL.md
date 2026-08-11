@@ -10,12 +10,15 @@ dependencies.
 
 ## Inputs
 
-- Ponytail-approved `requirements.md`
+- Ponytail-approved readable requirements artifact
 - human requirements review approving its exact version
 - discovery index
 - decision log
 - repository and PR constraints
 - run artifact root
+
+Apply the orchestrator human-readable output policy to PRs, sequence, packets, and
+approval narration.
 
 ## Hard boundaries
 
@@ -58,13 +61,16 @@ both local and hosted configuration and their validation.
 7. Define contract assumptions for consumers and producers.
 8. Generate one bounded build packet per PR using the orchestrator packet contract.
 9. Check that no cycle exists; if one does, refine contracts or report a decision need.
+10. When there is more than one PR, embed a Mermaid dependency DAG in the sequence
+    artifact.
+    For one PR, state that no dependency diagram is needed.
 
 Do not sequence speculative cleanup, opportunistic refactors, or requirements rejected by
 Ponytail.
 
 ## Output contract
 
-Write `pr-sequence.md`:
+Write a readable sequence artifact under `pull-requests/`:
 
 ```markdown
 # Pull Request Sequence
@@ -72,8 +78,10 @@ Status: awaiting-human-review | blocked
 
 ## Ordering rationale
 ## Dependency graph
+[embedded Mermaid DAG, or single-PR no-diagram statement]
 ## Sequence
-### PR-01: [title]
+### [PR name] ([internal PR ID])
+- Meaning:
 - Area: backend
 - Requirements:
 - Depends on:
@@ -82,23 +90,23 @@ Status: awaiting-human-review | blocked
 - Architecture draft sources:
 - Worktree branch intent:
 - Acceptance checks:
-- Packet: packets/PR-01.md
+- Packet: [readable packet path]
 ## Coverage
 ## Exceptions and approvals
 ## Risks and blockers
 ```
 
-Each `packets/<pr-id>.md` must state objective, non-goals, allowed scope, requirement IDs,
-dependencies, accepted artifact paths, contracts, checks, configuration duties, assigned
-durable doc paths, versioned draft sources, explicit unassigned architecture-doc
-exclusions, and the required build-report path. Include exact input and packet versions.
-It must be sufficient without any transcript.
+Each readable packet must state its display name, purpose, internal ID, objective,
+non-goals, scope, named requirements, dependencies, inputs, contracts, checks,
+configuration duties, doc and diagram assignments or exclusions, and readable build
+report path. Include exact versions as metadata. It must be sufficient without a
+transcript.
 
-## Gate
+## Approval checkpoint
 
 Mark ready for human review only when the graph is acyclic, areas are strictly separated,
 ordering is justified, infrastructure covers local and hosted concerns, and all
-requirements and durable documentation updates are covered exactly once. Do not mark the
-sequence or packets approved and do not start builds. Return sequence summary, exact
-versions, parallelizable PRs, blockers, and artifact paths for the mandatory sequence
-gate.
+requirements and durable documentation updates are covered exactly once. The required PR
+DAG or single-PR no-diagram statement must be available at this checkpoint. Do not mark
+the sequence or packets approved and do not start builds. Return sequence summary, exact
+versions, parallelizable PRs, blockers, and artifact paths for sequence approval.

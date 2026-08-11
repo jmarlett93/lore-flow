@@ -1,6 +1,6 @@
 ---
 name: realign-run
-description: Reconciles explicit human edits or review changes with an existing Universal Flow run, preserves history, computes downstream impact, and returns the next human gate. Use after planning or PR sequencing when a reviewer changes accepted artifacts.
+description: Reconciles explicit human edits or review changes, preserves history, computes downstream impact, and returns the next approval checkpoint. Use when a reviewer changes accepted planning artifacts.
 ---
 
 # Realign Run
@@ -20,6 +20,7 @@ Require:
 
 Also inspect existing branches, worktrees, and build reports when implementation exists.
 Treat direct human edits as proposed changes, not implicit approval.
+Apply the orchestrator human-readable output policy throughout.
 
 ## Classify the change
 
@@ -40,6 +41,11 @@ and revalidates their durable-doc assignments. A `rename-only` change preserves 
 stable IDs, and decision history, and refreshes only documents that contain the affected
 name; it does not rewrite unrelated architecture.
 
+Apply the same bounds to embedded diagrams. Refresh only diagrams reached by the changed
+requirements, contracts, topology, state, or sequence; preserve unaffected diagrams.
+For `rename-only`, use the alias map to refresh affected labels while keeping stable node
+IDs and relationships. Revalidate changed diagrams without creating decorative ones.
+
 ## Preserve history
 
 1. Snapshot each changed accepted artifact as its existing immutable version.
@@ -51,6 +57,8 @@ name; it does not rewrite unrelated architecture.
 For `rename-only`, add old-to-new names to the alias map. Keep stable IDs where meaning is
 unchanged and preserve reverse traceability from the new label to prior evidence,
 requirements, packets, builds, and reviews.
+Change a readable filename only through the explicit realignment plan. Preserve its
+stable ID and record old/new path aliases so earlier references remain traceable.
 
 ## Compute transitive impact
 
@@ -97,26 +105,31 @@ one action for each affected unit:
 State data-loss, conflict, and review risks. Require explicit human approval before
 rebasing, deleting, replacing, resetting, force-updating, or cancelling implementation.
 Until approval, leave implementation untouched and set status `awaiting-human-review`.
+Present every destructive action as its own numbered approval item. Name the exact file,
+worktree, or branch and consequence; never combine it with another approval.
 
 ## Output
 
-Write `realignments/<realignment-id>.md` containing:
+Write `realignments/<change-slug>.md` containing:
 
 - run and realignment IDs, reviewer, decision, comments, and timestamp
 - changed artifact IDs and before/candidate versions
 - change classifications and alias updates
 - architecture draft and durable-document impact
+- impacted diagrams, preserved diagrams, and validation needed
 - transitive impact records and unaffected accepted artifacts
 - minimal phases and affected PRs to rerun
 - existing-build proposals and approvals required
-- supersession plan, unresolved questions, and next gate
+- supersession plan, unresolved questions, and next approval checkpoint
+- display name, plain-language purpose, internal ID, old/new path aliases, named numbered
+  decisions and consequences, and a separate `Open questions` section
 
 Update the artifact index, decision history, review records, and run status without
 overwriting prior entries. Return a bounded summary with the artifact path.
 
-## Gate
+## Approval checkpoint
 
-The next gate is the earliest impacted mandatory human gate: technical requirements or PR
-sequence. If neither is materially impacted, request approval of the realignment plan
-before resuming the previously pending gate or approved build path. Resume only from
-explicit approval naming the candidate artifact versions.
+The next approval checkpoint is the earliest impacted mandatory checkpoint: technical
+requirements or PR sequence. If neither is materially impacted, request approval of the
+realignment plan before resuming. Explain what changed, what is no longer trustworthy,
+and what needs review. Resume only from approval naming the candidate versions.

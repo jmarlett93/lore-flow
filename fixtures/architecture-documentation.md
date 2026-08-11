@@ -11,19 +11,23 @@ The repository has no architecture or ADR convention.
 ```json
 {
   "drafts": [
-    "architecture/overview.md",
-    "architecture/backend.md",
-    "architecture/infrastructure.md",
-    "architecture/adr/async-export-jobs.md"
+    "architecture/bulk-export-overview.md",
+    "architecture/bulk-export-backend.md",
+    "architecture/bulk-export-infrastructure.md",
+    "decisions/asynchronous-export-jobs.md"
   ],
   "units": [
     {
-      "id": "PR-01",
+      "displayName": "Provision export storage",
+      "purpose": "Provide local and hosted storage for export files.",
+      "internalId": "PR-01",
       "area": "infrastructure",
       "durableDocs": ["docs/architecture/export-storage.md"]
     },
     {
-      "id": "PR-02",
+      "displayName": "Build bulk export API",
+      "purpose": "Create and expose asynchronous bulk export jobs.",
+      "internalId": "PR-02",
       "area": "backend",
       "dependsOn": ["PR-01"],
       "durableDocs": [

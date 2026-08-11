@@ -17,6 +17,7 @@ between them. Review product intent; do not design the implementation.
 
 Inspect repository evidence only as needed to verify claims about current behavior.
 Label unsupported claims rather than filling gaps from intuition.
+Apply the orchestrator human-readable output policy to every created item and artifact.
 
 ## Review
 
@@ -40,7 +41,7 @@ Challenge:
 
 ## Output contract
 
-Write `prd-review.md` under the run root:
+Write `prd-reviews/<feature-slug>.md` under the run root:
 
 ```markdown
 # PRD Review
@@ -51,7 +52,7 @@ Status: accepted | clarification-required | blocked
 ## Current behavior
 ## Requested behavior
 ## Frontier
-- F-001: [actor] changes from [current] to [requested]
+- [Frontier name] ([internal ID]): [plain-language meaning]
   - Evidence:
   - Acceptance observation:
 ## In scope
@@ -59,13 +60,13 @@ Status: accepted | clarification-required | blocked
 ## Ambiguities and contradictions
 ## Product decisions required
 ## Discovery questions
-## Gate
+## Approval checkpoint
 ```
 
 Every frontier item must be independently observable and cite both sides when current
 behavior exists. Use `unknown` when evidence is absent.
 
-## Gate rules
+## Approval checkpoint rules
 
 Return `accepted` only when:
 

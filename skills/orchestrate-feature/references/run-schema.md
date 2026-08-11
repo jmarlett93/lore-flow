@@ -2,6 +2,7 @@
 
 Use human-readable Markdown. JSON-compatible values shown below define required fields,
 not a requirement to use JSON.
+Apply [human-readable-output.md](human-readable-output.md) to all records and paths.
 
 ## Run manifest
 
@@ -17,29 +18,37 @@ Create `.universal-flow/runs/<run-id>/run.md` with:
 - `started-at` and `updated-at`: ISO-8601 timestamps
 - `current-phase`: workflow phase name
 - `constraints`: user and repository constraints
-- `decisions`: decision IDs with short outcomes
-- `pending-gate`: gate ID, required reviewer or policy, and exact artifact versions
-- `blockers`: blocker IDs, owner, and required resolution
+- `decisions`: names and outcomes, with internal IDs as metadata
+- `pending-approval`: checkpoint name, reviewer, policy, and exact artifact versions
+- `blockers`: names and resolutions, with internal IDs and owners as metadata
 
 Do not store secrets, credentials, or full transcripts.
 
 ## Artifact index
 
-Create `artifact-index.md`. Each row or list entry contains:
+Create `artifact-index.md`. Each entry leads with:
 
-- stable artifact ID
-- artifact type
-- version and predecessor version, when any
-- relative path under the run root
+- display name
+- one-sentence plain-language purpose
+- type
+- status in plain language
+
+Then record:
+
+- stable internal ID, version, and predecessor version
+- readable relative path under the run root
 - producing role and phase
-- status: `draft`, `accepted`, `superseded`, or `blocked`
 - input artifact IDs
 - one-sentence summary
 - evidence references
+- name and path aliases
 - timestamp
 
 Architecture draft entries also record domain, target durable path, and whether the
-draft is an overview, domain document, or ADR. Index every version separately.
+draft is an overview, domain document, or ADR. For each embedded diagram, record purpose,
+type, home, source requirement IDs, delivery status, and validation evidence. Record a
+justified `none` when no diagram applies. Index every draft version separately; do not
+create a standalone diagram index unless repository complexity truly requires one.
 
 Update the index when an artifact changes. Preserve superseded artifacts or clearly record
 their replacement; do not silently overwrite material decisions.
@@ -50,19 +59,20 @@ version `superseded`.
 
 ## Human review records
 
-Create one durable record per review under `human-reviews/`. Record:
+Create one readable record per review under `human-reviews/`. Record:
 
-- stable review and gate IDs
+- display name, plain-language purpose, stable review ID, and checkpoint ID
 - reviewer identity
 - decision: `approved`, `changes-requested`, or `rejected`
 - ISO-8601 timestamp and comments
 - reviewed artifact IDs and exact versions
-- policy or preset that required the gate
+- policy or preset that required the approval checkpoint
 - resulting status, decision IDs, and realignment ID when applicable
 
-The mandatory gates are `technical-requirements` and `pr-sequence`. The latter includes
-all build packet versions. Approval applies only to the listed versions; a material new
-version requires a new review. Optional per-PR gates use the same record shape.
+The mandatory approval checkpoints are Technical requirements and PR sequence. The latter
+includes all build packet versions. Approval applies only to listed versions; explain
+plainly why a material new version needs review again. Optional checkpoints use the same
+record shape.
 
 ## Realignment and traceability
 
@@ -71,45 +81,39 @@ Maintain:
 - `aliases.md`: stable ID, old name, new name, direction, reason, review ID, and timestamp
 - `invalidations.md`: changed source version, classification, dependency path, impact,
   affected version, proposed action, and disposition
-- `realignments/<realignment-id>.md`: changed artifacts, transitive impact, minimal rerun,
-  preserved artifacts, implementation proposals, approvals required, and next gate
+- `realignments/<change-slug>.md`: changed artifacts, transitive impact, minimal rerun,
+  preserved artifacts, implementation proposals, approvals, and next checkpoint
 
 Change classification is `rename-only`, `requirement`,
 `contract-model-state-behavior-design`, `sequencing`, or `scope`. Impact is `none`,
 `label-refresh`, `revalidate`, or `regenerate`. Keep unaffected accepted artifacts
 accepted and retain all prior review and decision history.
 
-## Canonical artifacts
+## Readable artifact layout
 
-Use these names unless multiple PRs require a stable suffix:
+Use lowercase purpose slugs:
 
-- `prd-review.md`
-- `discovery/frontend.md`
-- `discovery/backend.md`
-- `discovery/infrastructure.md`
-- `discovery-index.md`
-- `requirements.md`
-- `architecture/overview.md`
-- `architecture/frontend.md` when relevant
-- `architecture/backend.md` when relevant
-- `architecture/infrastructure.md` when relevant
-- `architecture/adr/<decision-id>.md` when warranted
-- `ponytail-pre-build.md`
-- `decision-log.md`
-- `human-reviews/<review-id>.md`
-- `aliases.md`
-- `invalidations.md`
-- `realignments/<realignment-id>.md`
-- `pr-sequence.md`
-- `packets/<pr-id>.md`
-- `builds/<pr-id>.md`
-- `reviews/<pr-id>-ponytail.md`
-- `final-report.md`
+- `prd-reviews/<feature-slug>.md`
+- `discovery/<feature-slug>-<area>.md`
+- `requirements/<feature-slug>.md`
+- `architecture/<feature-slug>-overview.md`
+- `architecture/<feature-slug>-<domain>.md` when relevant
+- `decisions/<decision-slug>.md`
+- `human-reviews/<action>-<subject-slug>.md`
+- `realignments/<change-slug>.md`
+- `pull-requests/<sequence>-<domain>-<purpose-slug>-packet.md`
+- matching `-build.md` and `-review.md` PR artifacts
+- `reports/<feature-slug>-final.md`
+
+Keep shared indexes, aliases, and invalidation records at stable descriptive paths.
+Legacy canonical filenames may be index aliases; do not create duplicate files merely
+for compatibility.
 
 Architecture files under the run root are versioned evidence and source material.
 Durable architecture belongs in the target repository's discovered convention, or
 `docs/architecture/` and `docs/adr/` when none exists. The artifact index records the
 durable target path and owning PR; it does not treat run drafts as delivery.
+Diagrams remain embedded parts of those named architecture artifacts by default.
 
 ## Evidence
 
@@ -122,7 +126,7 @@ Evidence references must be reproducible and concise:
 - artifact ID for prior accepted analysis
 
 Distinguish `observed`, `inferred`, `assumed`, and `unknown`. An inference names its
-supporting observations. An assumption names its validation owner and gate.
+supporting observations. An assumption names its validation owner and checkpoint.
 
 ## Phase completion
 

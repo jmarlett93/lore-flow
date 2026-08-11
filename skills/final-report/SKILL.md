@@ -17,10 +17,12 @@ claim success from agent confidence.
 - mandatory human review records and any realignment artifacts
 - decision log
 - indexed architecture draft versions and durable documentation assignments
+- indexed diagram coverage and build validation evidence
 
 Validate that referenced artifacts exist, their versions match mandatory approvals, and
 their statuses agree. A missing, conflicting, stale, invalidated, or superseded input is
 an explicit report finding and cannot support `completed`.
+Apply the orchestrator human-readable output policy to the report and all narration.
 
 ## Determine outcome
 
@@ -50,14 +52,19 @@ Before writing:
 9. Summarize realignments, aliases, supersession, and preserved unaffected work.
 10. Confirm every planned durable architecture doc/ADR was assigned once, updated by its
     owning PR, and verified; distinguish it from run-only draft evidence.
-11. Identify the smallest next action for every blocker.
+11. Confirm each required diagram's purpose, type, home, source requirements, delivery,
+    and syntax/rendering evidence. Report justified no-diagram decisions.
+12. Identify the smallest next action for every blocker.
 
 ## Output contract
 
-Write `final-report.md`:
+Write `reports/<feature-slug>-final.md`:
 
 ```markdown
 # Universal Flow Final Report
+Display name:
+Plain-language purpose:
+Internal ID:
 Outcome: completed | partially-completed | blocked | failed
 
 ## Executive summary
@@ -66,7 +73,9 @@ Outcome: completed | partially-completed | blocked | failed
 ## Checks and review evidence
 ## Configuration and rollout
 ## Architecture documentation coverage
+### Diagram coverage and validation
 ## Decisions and deviations
+## Open questions
 ## Risks, blockers, and next actions
 ## Deferred and out-of-scope work
 ## Artifact index
@@ -86,5 +95,6 @@ executive summary to ten bullets or fewer.
 ## Return
 
 Return the overall outcome, ordered PR list, critical evidence, unresolved blockers, and
-`final-report.md` path. State whether commits, pushes, PR creation, merges, deployment,
-and hosted validation occurred; never imply external actions that were not evidenced.
+the readable final-report path. State whether commits, pushes, PR creation, merges,
+deployment, and hosted validation occurred; never imply external actions without
+evidence.

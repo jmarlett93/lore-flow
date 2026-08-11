@@ -21,6 +21,8 @@ architecture-document assignments/exclusions, or output path. Before any mutatio
 reject a packet or input that is draft, invalidated, replaced, superseded, or different
 from the versions in the approving human review. Do not infer missing scope or approval
 from conversation history.
+Read the orchestrator diagram policy before changing architecture documentation.
+Apply the orchestrator human-readable output policy to build records and user narration.
 
 ## Worktree safety
 
@@ -38,9 +40,13 @@ from conversation history.
 3. Plan the minimal diff needed for the assigned requirement IDs.
 4. Implement while keeping each change traceable to a requirement.
 5. Update only the durable architecture documents and ADRs assigned in the packet, using
-   the target repository's convention and versioned run drafts as source material.
+   the target repository's convention and versioned run drafts as source material. Carry
+   approved diagrams into their assigned durable documents; make no unrelated diagram
+   edits.
 6. Verify changed documentation links, examples, commands, configuration references, and
-   indexes against the implemented repository state.
+   indexes against the implemented repository state. Validate diagram syntax and
+   rendering with repository tooling when available; otherwise perform and record a
+   manual policy check.
 7. Add or update tests for observable acceptance and meaningful failures.
 8. Run the narrowest relevant checks first, then required repository-native checks.
 9. Inspect the final diff for area leakage, unassigned architecture docs, generated
@@ -62,10 +68,11 @@ both local and hosted configuration obligations.
 
 ## Output contract
 
-Write `builds/<pr-id>.md`:
+Write the readable `pull-requests/<sequence>-<domain>-<purpose-slug>-build.md` path:
 
 ```markdown
-# Build Report: [PR ID]
+# Build Report: [PR name] ([internal PR ID])
+Purpose:
 Outcome: ready-for-review | blocked | failed
 
 ## Worktree and base
@@ -77,6 +84,8 @@ Outcome: ready-for-review | blocked | failed
 - Assigned docs/ADRs updated:
 - Draft versions used:
 - Links/examples/config references verified:
+- Approved diagrams delivered:
+- Diagram validation evidence:
 - Assigned documentation not updated:
 ## Local and hosted configuration
 ## Tests and checks

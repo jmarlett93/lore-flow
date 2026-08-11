@@ -150,20 +150,18 @@ Each run writes durable state under the target repository:
 .universal-flow/runs/<run-id>/
 ├── run.md
 ├── artifact-index.md
-├── prd-review.md
+├── prd-reviews/<feature-slug>.md
 ├── discovery/
-├── requirements.md
+├── requirements/<feature-slug>.md
 ├── architecture/
-│   ├── overview.md
-│   ├── frontend.md, backend.md, infrastructure.md (only when relevant)
-│   └── adr/ (only warranted decision drafts)
-├── pr-sequence.md
-├── packets/
+│   ├── <feature-slug>-overview.md
+│   └── <feature-slug>-<domain>.md (only when relevant)
+├── decisions/<decision-slug>.md
 ├── human-reviews/
 ├── realignments/
-├── builds/
-├── reviews/
-└── final-report.md
+├── pull-requests/
+│   └── <sequence>-<domain>-<purpose-slug>-(packet|build|review).md
+└── reports/<feature-slug>-final.md
 ```
 
 `run.md` records status, phase, constraints, decisions, and blockers.
@@ -172,6 +170,18 @@ acceptance state. The other human-readable artifacts hold discovery,
 requirements, dependency sequencing, bounded build packets, worktree results,
 and reviews. Preserve superseded decisions instead of silently overwriting
 them; recovery must not depend on replaying chat text.
+
+Artifacts and narration lead with readable names and plain-language purpose. Internal IDs
+and versions remain index metadata for exact traceability. For example:
+
+- Before: `F-002 invalidates ART-007 v3; approve D-F1-R2.`
+- After: `Hosted order events (F-002) changed the runtime assumption. The Order service
+  topology draft can no longer be trusted and needs architecture review again.`
+
+Readable filenames use stable purpose slugs, such as
+`requirements/hosted-order-events.md` and
+`pull-requests/02-backend-publish-order-events-packet.md`. Legacy names may remain as
+artifact-index aliases; duplicate compatibility files are not required.
 
 ### Architecture documentation
 
@@ -189,12 +199,18 @@ documents follow their domain; cross-cutting API/contract docs default to the
 contract-producing backend PR; infrastructure docs stay in infrastructure PRs.
 Ambiguous ownership blocks for human decision instead of creating a mixed-domain PR.
 
-## Human review and realignment
+Diagrams appear only when they materially clarify relationships. Proposed architecture
+diagrams are embedded in run drafts before requirements approval. A Mermaid PR dependency
+DAG is embedded in the readable sequence artifact before sequence approval when more
+than one PR is planned; a single PR states that no DAG is needed. Durable diagrams are
+added to target architecture documents during their owning PR builds.
 
-Every run pauses twice before builds:
+## Human approval and realignment
 
-1. after Ponytail accepts the technical requirements; and
-2. after the PR sequence and build packets are generated.
+Every run pauses at two approval checkpoints before builds:
+
+1. Requirements approval, after Ponytail accepts the technical requirements.
+2. PR sequence approval, after the sequence and build packets are generated.
 
 At each pause, status is `awaiting-human-review`. The reviewer receives concise
 artifact links and exact versions. Universal Flow records the reviewer's
@@ -206,7 +222,7 @@ Reviewers may edit names, requirements, design, scope, or sequence and request
 changes. Invoke `realign-run` with the run ID and review record. It preserves
 accepted history, records rename aliases, computes transitive impact, and
 supersedes only affected downstream artifacts. Unaffected accepted work stays
-valid, and the run returns to the earliest impacted human gate.
+valid, and the run returns to the earliest impacted approval checkpoint.
 
 When builds or worktrees already exist, realignment proposes `keep`, `rebase`,
 `replace`, or `cancel` for each affected unit. It does not mutate or discard

@@ -10,13 +10,14 @@ changes and acceptance, not line-by-line code.
 
 ## Inputs
 
-- accepted `prd-review.md`
+- accepted readable PRD review artifact
 - `discovery-index.md` and all three area reports
 - decisions, constraints, and explicit non-goals
 - output path under the run root
 
 Do not rely on conversations or transcripts. If an input is missing or contradictory,
 return `blocked` with the exact artifact or decision needed.
+Apply the orchestrator human-readable output policy to every created element and path.
 
 ## Requirement taxonomy
 
@@ -27,8 +28,8 @@ Every change must be a named requirement of one of these types:
 - `STATE`: client/server state, transition, synchronization, caching, or failure state
 - `BEHAVIOR`: observable user, system, operational, or accessibility behavior
 
-Use IDs such as `MODEL-user-preference`, not anonymous bullets. A requirement may depend
-on another type but must have one primary type and one owning area.
+Give each requirement a display name and plain-language meaning, with an ID such as
+`MODEL-user-preference` as secondary metadata. It must have one primary type and owner.
 
 ## Process
 
@@ -41,7 +42,10 @@ on another type but must have one primary type and one owning area.
 7. Mark rollout, migration, local configuration, and hosted configuration duties.
 8. For each requirement, record architecture impact (`none`, `update`, or `decision`) and
    exact durable architecture/ADR updates using discovered repository conventions.
-9. Verify that each requirement is necessary; leave implementation choices open unless
+9. Apply the orchestrator diagram policy. Before requirements approval, select each
+   required diagram and record its purpose, type, home, and source requirement IDs.
+10. Embed selected diagrams in their versioned run architecture drafts.
+11. Verify that each requirement is necessary; leave implementation choices open unless
    the choice is itself required for compatibility or correctness.
 
 Do not hide cross-area work in one requirement. Split it at the contract boundary.
@@ -51,16 +55,19 @@ Do not hide cross-area work in one requirement. Split it at the contract boundar
 When a change meaningfully alters system boundaries, contracts, data flow, deployment,
 or a consequential design decision, create source drafts under the run root at
 `architecture/`: `overview.md`, only relevant `frontend.md`, `backend.md`, or
-`infrastructure.md`, and `adr/<decision-id>.md` only when a decision warrants an ADR.
+`infrastructure.md`, and an ADR only when a decision warrants one. Use readable
+feature/domain and decision-slug filenames from the output policy.
 Index and version each draft. State its target durable path from discovery, defaulting
 to `docs/architecture/` and `docs/adr/` only when no convention exists.
 
 Drafts are run evidence, not committed documentation. Do not create them for trivial
 implementation details, formatting, or unchanged architecture. Record `none` explicitly.
+Use embedded Mermaid by default unless discovery found a repository-native alternative.
+One diagram may cover multiple triggers; never add a diagram that only duplicates prose.
 
 ## Output contract
 
-Write `requirements.md`:
+Write `requirements/<feature-slug>.md`:
 
 ```markdown
 # Technical Requirements
@@ -69,10 +76,11 @@ Status: accepted | clarification-required | blocked
 ## Scope and constraints
 ## Requirement index
 ## Requirements
-### CONTRACT-create-widget
+### Create widget contract (`CONTRACT-create-widget`)
+- Meaning:
 - Type: CONTRACT
 - Owner: backend
-- Frontier: F-001
+- Frontier: [frontier name and internal ID]
 - Purpose:
 - Inputs/outputs:
 - Invariants and failures:
@@ -86,18 +94,26 @@ Status: accepted | clarification-required | blocked
 ## Dependency graph
 ## Cross-area contracts
 ## Architecture documentation plan
+### Diagram plan
+- Purpose:
+- Type: flowchart | sequenceDiagram | stateDiagram-v2
+- Home:
+- Source requirements:
+- Convention and validation:
 ## Migration and rollout
 ## Local and hosted configuration
 ## Coverage matrix
-## Unknowns and decisions
+## Numbered decisions and consequences
+## Open questions
 ```
 
 The coverage matrix maps every frontier item to requirement IDs and every requirement to
 an acceptance check. No orphan frontier items or requirements are allowed.
 
-## Gate
+## Approval checkpoint
 
 Accept only if requirements are named, necessary, testable, area-owned, dependency-aware,
-evidence-backed, and explicit about architecture documentation. Escalate product choices;
-do not resolve them as technical details.
+evidence-backed, and explicit about architecture documentation and justified diagram
+coverage. Every selected diagram must already be embedded in its run draft. Escalate
+product choices; do not resolve them as technical details.
 Return status, counts by type and owner, blockers, and the artifact path.

@@ -17,6 +17,7 @@ read-only and evidence-first. Do not propose speculative architecture or edit co
 - output path under the run root
 
 Read only the artifacts and repository regions needed to answer the packet questions.
+Apply the orchestrator human-readable output policy to created items and artifacts.
 
 ## Common discovery
 
@@ -29,11 +30,17 @@ Identify:
 - contracts crossing area boundaries
 - the area's existing architecture and ADR locations, naming/index conventions, and
   relevant current documents
+- existing diagram formats, Mermaid conventions, durable homes, and validation commands
 - constraints, risks, unknowns, and assumptions requiring validation
 
 Every material statement must cite a repository-relative path with line range or symbol,
 a summarized command result, or an accepted artifact. Distinguish observed facts from
 inferences.
+
+Produce a current-state diagram only when repository evidence supports every component
+and relationship complexity materially benefits from a visual. Embed it in the relevant
+discovery report, follow the repository convention, and apply the orchestrator diagram
+policy. Otherwise state that no discovery diagram is justified.
 
 ## Area focus
 
@@ -56,11 +63,14 @@ net-new resource blocks application implementation.
 
 ## Output contract
 
-Write the assigned area report:
+Write `discovery/<feature-slug>-<area>.md`:
 
 ```markdown
 # [Area] Discovery
 Status: complete | blocked
+Display name:
+Plain-language purpose:
+Internal ID:
 
 ## Summary
 ## Evidence
@@ -69,15 +79,17 @@ Status: complete | blocked
 - Architecture paths/indexes:
 - ADR paths/indexes and numbering/status:
 - Relevant current documents:
+- Diagram conventions and validation tooling:
 - Evidence or `none found`:
 ## Frontier change surfaces
-- F-001
+- [frontier name and internal ID]
   - Likely files/symbols:
   - Existing analogous pattern:
   - Cross-area contracts:
 ## Native commands and checks
 ## Risks and constraints
 ## Unknowns and validation owners
+## Open questions
 ## Planning recommendations
 ```
 

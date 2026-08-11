@@ -15,3 +15,5 @@ relationships and states rather than array order unless `sequence` is present.
 | `failed-ponytail-review.md` | Failed required review blocks dependents |
 | `human-realignment.md` | Rename traceability and bounded design invalidation |
 | `architecture-documentation.md` | Run drafts and area-owned durable docs/ADRs |
+| `diagram-policy.md` | YAGNI diagram triggers, homes, PR DAG, and no-diagram case |
+| `human-readable-naming.md` | Readable names, paths, narration, and isolated approval |
