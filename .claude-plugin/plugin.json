@@ -6,5 +6,19 @@
   "license": "MIT",
   "keywords": ["workflow", "multi-agent", "delivery"],
   "skills": "./skills/",
-  "agents": "./agents/claude/"
+  "agents": [
+    "./agents/claude/builder-backend.md",
+    "./agents/claude/builder-frontend.md",
+    "./agents/claude/builder-infra.md",
+    "./agents/claude/discovery-backend.md",
+    "./agents/claude/discovery-frontend.md",
+    "./agents/claude/discovery-infra.md",
+    "./agents/claude/final-reporter.md",
+    "./agents/claude/orchestrator.md",
+    "./agents/claude/ponytail.md",
+    "./agents/claude/pr-sequencer.md",
+    "./agents/claude/prd-reviewer.md",
+    "./agents/claude/realign-run.md",
+    "./agents/claude/requirements-planner.md"
+  ]
 }
