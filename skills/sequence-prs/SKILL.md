@@ -18,7 +18,8 @@ dependencies.
 - run artifact root
 
 Apply the orchestrator human-readable output policy to PRs, sequence, packets, and
-approval narration.
+approval narration. Mint published `sequence.md` and terse per-PR notes per the
+orchestrator published-docs policy. Keep packets in the run folder.
 
 ## Hard boundaries
 
@@ -61,16 +62,18 @@ both local and hosted configuration and their validation.
 7. Define contract assumptions for consumers and producers.
 8. Generate one bounded build packet per PR using the orchestrator packet contract.
 9. Check that no cycle exists; if one does, refine contracts or report a decision need.
-10. When there is more than one PR, embed a Mermaid dependency DAG in the sequence
-    artifact.
-    For one PR, state that no dependency diagram is needed.
+10. When there is more than one PR, embed a Mermaid dependency DAG in published
+    `sequence.md`. For one PR, state that no dependency diagram is needed.
+11. Write one published PR note per item with links to architecture-overview facets and
+    terse pseudo-code or a nominal-flow diagram for that PR only.
 
 Do not sequence speculative cleanup, opportunistic refactors, or requirements rejected by
 Ponytail.
 
 ## Output contract
 
-Write a readable sequence artifact under `pull-requests/`:
+Write published `docs/features/<feature-slug>/sequence.md` and `prs/*.md`. Keep the
+detailed packet under the run folder.
 
 ```markdown
 # Pull Request Sequence
@@ -96,11 +99,10 @@ Status: awaiting-human-review | blocked
 ## Risks and blockers
 ```
 
-Each readable packet must state its display name, purpose, internal ID, objective,
-non-goals, scope, named requirements, dependencies, inputs, contracts, checks,
-configuration duties, doc and diagram assignments or exclusions, and readable build
-report path. Include exact versions as metadata. It must be sufficient without a
-transcript.
+Each published PR note names the slice of the end state, links overview facets, and
+includes only this PR's nominal flow or pseudo-code. Each run packet still states
+objective, non-goals, scope, named requirements, dependencies, inputs, contracts,
+checks, configuration duties, doc assignments, and the build-report path.
 
 ## Approval checkpoint
 
@@ -108,5 +110,5 @@ Mark ready for human review only when the graph is acyclic, areas are strictly s
 ordering is justified, infrastructure covers local and hosted concerns, and all
 requirements and durable documentation updates are covered exactly once. The required PR
 DAG or single-PR no-diagram statement must be available at this checkpoint. Do not mark
-the sequence or packets approved and do not start builds. Return sequence summary, exact
-versions, parallelizable PRs, blockers, and artifact paths for sequence approval.
+the sequence or packets approved and do not start builds. Return the published sequence
+and PR-note paths, exact versions, parallelizable PRs, and blockers.

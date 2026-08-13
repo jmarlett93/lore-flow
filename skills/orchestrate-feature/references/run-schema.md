@@ -69,10 +69,10 @@ Create one readable record per review under `human-reviews/`. Record:
 - policy or preset that required the approval checkpoint
 - resulting status, decision IDs, and realignment ID when applicable
 
-The mandatory approval checkpoints are Technical requirements and PR sequence. The latter
-includes all build packet versions. Approval applies only to listed versions; explain
-plainly why a material new version needs review again. Optional checkpoints use the same
-record shape.
+The mandatory approval checkpoints are Technical requirements and PR sequence. Per-PR
+approval before each build is on by default and uses the same record shape; disable it
+only with `each-pr: false`. Approval applies only to listed versions; explain plainly
+why a material new version needs review again.
 
 ## Realignment and traceability
 
@@ -109,11 +109,16 @@ Keep shared indexes, aliases, and invalidation records at stable descriptive pat
 Legacy canonical filenames may be index aliases; do not create duplicate files merely
 for compatibility.
 
-Architecture files under the run root are versioned evidence and source material.
-Durable architecture belongs in the target repository's discovered convention, or
-`docs/architecture/` and `docs/adr/` when none exists. The artifact index records the
-durable target path and owning PR; it does not treat run drafts as delivery.
-Diagrams remain embedded parts of those named architecture artifacts by default.
+The committed review surface is the published pack in
+`docs/features/<feature-slug>/` unless discovery found another feature-doc convention:
+`README.md`, `technical-spec.md`, `architecture-overview.md`, `sequence.md`, and
+`prs/<nn>-<domain>-<purpose-slug>.md`. See [published-docs.md](published-docs.md).
+
+Architecture files under the run root are versioned evidence. Durable domain docs still
+follow the repository convention, or `docs/architecture/` and `docs/adr/` when none
+exists. Diagrams live in the published architecture overview and PR notes by default.
+
+Target repositories should gitignore `.universal-flow/`.
 
 ## Evidence
 

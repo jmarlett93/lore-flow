@@ -33,10 +33,15 @@ Create a unique `run-id` and use this artifact root in the target repository:
 
 Initialize the run and artifact index according to
 [run-schema.md](references/run-schema.md). Read
-[context-packets.md](references/context-packets.md) and
-[diagram-policy.md](references/diagram-policy.md), plus
-[human-readable-output.md](references/human-readable-output.md), before delegating.
-Include both policies and relevant assignments in every packet.
+[context-packets.md](references/context-packets.md),
+[diagram-policy.md](references/diagram-policy.md),
+[human-readable-output.md](references/human-readable-output.md), and
+[published-docs.md](references/published-docs.md) before delegating.
+Include those policies and relevant assignments in every packet.
+
+`.universal-flow/` is run machinery. If the target repository has no ignore rule for it,
+add the template at `templates/gitignore`. Human approval uses the published pack under
+`docs/features/<feature-slug>/`, not the run folder.
 
 The parent retains only:
 
@@ -73,12 +78,11 @@ tooling.
 
 Invoke `plan-requirements` with the PRD review and discovery summaries. Every proposed
 change must become a named requirement for a model, contract, state, or behavior change.
-Persist the readable requirements path, including dependencies, checks, ownership, and
-traceability to PRD evidence. For meaningful architecture changes, also persist versioned
-source drafts under `architecture/`; create only relevant domain drafts and warranted ADR
-drafts. Select diagrams under the diagram policy and embed justified diagrams in these
-drafts before the requirements approval checkpoint. These run artifacts do not replace durable
-target-repository documentation.
+Persist the run requirements path as evidence. Mint the published pack before the
+requirements approval checkpoint: systems summary, technical spec, and end-state
+architecture overview with simple object models, contracts, and justified diagrams.
+Keep versioned drafts in the run folder. Present the published files, not the run
+folder, at the checkpoint.
 
 ### 4. Run pre-build Ponytail review
 
@@ -90,8 +94,9 @@ the readable pre-build review and decision paths.
 ### 5. Obtain human requirements approval
 
 After Ponytail accepts the technical requirements, pause at the requirements approval
-checkpoint. Present numbered named actions, consequences, accepted versions, review
-outcome, material decisions, and a separate `Open questions` section. Record the review.
+checkpoint. Present the published systems summary, technical spec, and architecture
+overview first. Add numbered named actions, consequences, versions, and `Open questions`.
+Record the review.
 
 Resume only after explicit human approval of that exact requirements version. Silence,
 edits, or an agent's interpretation are not approval. If the reviewer requests changes,
@@ -103,11 +108,11 @@ approval checkpoint that must be repeated.
 Invoke `sequence-prs`. Split PRs strictly into `frontend`, `backend`, or
 `infrastructure`; never create mixed-area PRs. Default to backend before frontend.
 Infrastructure is last unless a net-new resource blocks implementation. Infrastructure
-must cover both local and hosted configuration. Persist a readable sequence artifact and
-one bounded build packet per PR. Assign each required durable architecture/ADR change
-exactly once
-without weakening area separation; block when ownership cannot be resolved. For multiple
-PRs, include the required Mermaid dependency DAG in the sequence artifact.
+must cover both local and hosted configuration. Persist packets in the run folder.
+Mint published `sequence.md` and one terse PR note per item that links to overview
+facets and includes pseudo-code or a nominal flow for that PR only. Assign each
+durable architecture/ADR change exactly once without mixed-area PRs. For multiple PRs,
+include the DAG in published `sequence.md`.
 
 If frontend must lead while its backend endpoint is absent, include this exact note:
 
@@ -116,9 +121,9 @@ If frontend must lead while its backend endpoint is absent, include this exact n
 ### 7. Obtain human sequence approval
 
 Pause at the sequence approval checkpoint after generating the sequence and all packets,
-before creating or changing a build worktree. Present numbered named actions, their
-consequences, readable artifact names, versions, ordering, dependencies, exceptions, and
-`Open questions`. Persist the review.
+before creating or changing a build worktree. Present published `sequence.md` and PR
+notes first, then numbered named actions, consequences, versions, and `Open questions`.
+Persist the review.
 
 Resume only after explicit approval of the exact sequence and packet versions. On edits
 or requested changes, invoke `realign-run` and return to the earliest impacted approval
@@ -133,13 +138,14 @@ Agents must inspect current repository state before editing and must not reuse a
 PR's worktree. Verify the packet and every input version match the approved sequence
 review; reject stale or superseded versions. Persist build reports and diffs or diff
 references.
-Builders update only their assigned durable architecture docs in the repository and
-carry over approved diagrams assigned to those docs. They verify links, examples,
-configuration references, and diagram syntax/rendering against the implementation.
+Builders update only their assigned published PR note, owned overview facets, and
+durable architecture docs. They carry over approved diagrams and verify links, examples,
+configuration references, and diagram syntax against the implementation.
 
-If the preset or PR policy requires per-PR human approval, set status to
-`awaiting-human-review` before that PR build and apply the same exact-version review.
-This checkpoint supplements, and never replaces, the two mandatory checkpoints.
+Per-PR human approval is on by default. Before each PR build, set status to
+`awaiting-human-review` and apply the same exact-version review of that PR note.
+Skip only when the preset sets `each-pr: false`. This checkpoint supplements, and
+never replaces, the two mandatory checkpoints.
 
 ### 9. Run post-build Ponytail review
 

@@ -21,7 +21,7 @@ architecture-document assignments/exclusions, or output path. Before any mutatio
 reject a packet or input that is draft, invalidated, replaced, superseded, or different
 from the versions in the approving human review. Do not infer missing scope or approval
 from conversation history.
-Read the orchestrator diagram policy before changing architecture documentation.
+Read the orchestrator diagram and published-docs policies before changing documentation.
 Apply the orchestrator human-readable output policy to build records and user narration.
 
 ## Worktree safety
@@ -39,10 +39,9 @@ Apply the orchestrator human-readable output policy to build records and user na
 2. Inspect relevant repository conventions and closest existing implementation.
 3. Plan the minimal diff needed for the assigned requirement IDs.
 4. Implement while keeping each change traceable to a requirement.
-5. Update only the durable architecture documents and ADRs assigned in the packet, using
-   the target repository's convention and versioned run drafts as source material. Carry
-   approved diagrams into their assigned durable documents; make no unrelated diagram
-   edits.
+5. Update only the assigned published PR note, owned architecture-overview facets, and
+   durable docs/ADRs. Carry approved diagrams into those files. Make no unrelated
+   documentation or diagram edits.
 6. Verify changed documentation links, examples, commands, configuration references, and
    indexes against the implemented repository state. Validate diagram syntax and
    rendering with repository tooling when available; otherwise perform and record a
@@ -57,7 +56,7 @@ Escalate rather than implement when a change:
 
 - adds a new requirement or product behavior
 - crosses into another area
-- touches an architecture document or ADR not explicitly assigned to this packet
+- touches a published doc, architecture overview facet, or ADR not assigned to this packet
 - contradicts an accepted contract
 - requires an unapproved migration or net-new resource
 - depends on unavailable credentials, services, or user decisions
@@ -81,6 +80,7 @@ Outcome: ready-for-review | blocked | failed
 ## Files changed
 ## Contract impact
 ## Durable architecture documentation
+- Published PR note and overview facets updated:
 - Assigned docs/ADRs updated:
 - Draft versions used:
 - Links/examples/config references verified:

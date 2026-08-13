@@ -10,7 +10,7 @@
       "approvalGates": {
         "technical-requirements": true,
         "pr-sequence": true,
-        "each-pr": false
+        "each-pr": true
       },
       "roles": {
         "orchestrator": {
@@ -140,7 +140,7 @@
       "approvalGates": {
         "technical-requirements": true,
         "pr-sequence": true,
-        "each-pr": false
+        "each-pr": true
       },
       "roles": {
         "orchestrator": {
@@ -270,7 +270,7 @@
       "approvalGates": {
         "technical-requirements": true,
         "pr-sequence": true,
-        "each-pr": false
+        "each-pr": true
       },
       "roles": {
         "orchestrator": {
@@ -400,7 +400,7 @@
       "approvalGates": {
         "technical-requirements": true,
         "pr-sequence": true,
-        "each-pr": false
+        "each-pr": true
       },
       "roles": {
         "orchestrator": {

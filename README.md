@@ -148,9 +148,28 @@ For Claude Code, invoke:
 The orchestrator decomposes the request, records dependencies, and dispatches
 only work whose prerequisites are satisfied.
 
+## Published review pack
+
+Reviewers should not open `.universal-flow/`. After planning, the workflow mints a
+committed pack, by default:
+
+```text
+docs/features/<feature-slug>/
+├── README.md                      # systems summary
+├── technical-spec.md              # full PRD-derived behaviors
+├── architecture-overview.md       # end-state models, contracts, diagrams
+├── sequence.md                    # PR order and dependency DAG
+└── prs/
+    └── <nn>-<domain>-<purpose>.md # this PR's slice, with pseudo-code or nominal flow
+```
+
+Each PR note links to facets of the architecture overview. Keep `.universal-flow/` in
+the target repository `.gitignore`; copy [templates/gitignore](templates/gitignore) if
+needed.
+
 ## Run artifacts
 
-Each run writes durable state under the target repository:
+Each run writes recovery evidence under the target repository. Gitignore this tree:
 
 ```text
 .universal-flow/runs/<run-id>/
@@ -160,22 +179,17 @@ Each run writes durable state under the target repository:
 ├── discovery/
 ├── requirements/<feature-slug>.md
 ├── architecture/
-│   ├── <feature-slug>-overview.md
-│   └── <feature-slug>-<domain>.md (only when relevant)
-├── decisions/<decision-slug>.md
+├── decisions/
 ├── human-reviews/
 ├── realignments/
 ├── pull-requests/
-│   └── <sequence>-<domain>-<purpose-slug>-(packet|build|review).md
 └── reports/<feature-slug>-final.md
 ```
 
 `run.md` records status, phase, constraints, decisions, and blockers.
-`artifact-index.md` links every durable input and output with its evidence and
-acceptance state. The other human-readable artifacts hold discovery,
-requirements, dependency sequencing, bounded build packets, worktree results,
-and reviews. Preserve superseded decisions instead of silently overwriting
-them; recovery must not depend on replaying chat text.
+`artifact-index.md` links published files and run evidence. Preserve superseded
+decisions instead of silently overwriting them; recovery must not depend on replaying
+chat text.
 
 Artifacts and narration lead with readable names and plain-language purpose. Internal IDs
 and versions remain index metadata for exact traceability. For example:
@@ -185,44 +199,40 @@ and versions remain index metadata for exact traceability. For example:
   topology draft can no longer be trusted and needs architecture review again.`
 
 Readable filenames use stable purpose slugs, such as
-`requirements/hosted-order-events.md` and
-`pull-requests/02-backend-publish-order-events-packet.md`. Legacy names may remain as
-artifact-index aliases; duplicate compatibility files are not required.
+`docs/features/hosted-order-events/technical-spec.md` and
+`docs/features/hosted-order-events/prs/02-backend-publish-order-events.md`. Run-folder
+names may remain as evidence aliases.
 
 ### Architecture documentation
 
-Run-scoped files in `architecture/` are versioned design drafts and evidence for the
-current run. Planning creates them only for meaningful boundary, contract, data-flow,
-deployment, or design-decision changes—not trivial implementation details.
+The committed architecture overview is the end-state document people read: simple object
+models, contracts, and justified diagrams. Run-scoped `architecture/` files are
+versioned evidence only.
 
-Delivered architecture documentation is updated in the target repository's existing
-convention discovered for each area. If no convention exists, use
-`docs/architecture/` for architecture documents and `docs/adr/` for ADRs. Run drafts
-remain source material and never substitute for committed durable docs.
+If the repository already has architecture or ADR conventions, builders still update
+those domain docs in the owning PR. Otherwise they may also write
+`docs/architecture/` and `docs/adr/`. Cross-cutting API docs default to the
+contract-producing backend PR.
 
-Sequencing assigns each durable document change to exactly one area-owned PR. Domain
-documents follow their domain; cross-cutting API/contract docs default to the
-contract-producing backend PR; infrastructure docs stay in infrastructure PRs.
-Ambiguous ownership blocks for human decision instead of creating a mixed-domain PR.
-
-Diagrams appear only when they materially clarify relationships. Proposed architecture
-diagrams are embedded in run drafts before requirements approval. A Mermaid PR dependency
-DAG is embedded in the readable sequence artifact before sequence approval when more
-than one PR is planned; a single PR states that no DAG is needed. Durable diagrams are
-added to target architecture documents during their owning PR builds.
+Diagrams appear only when they materially clarify relationships. Proposed diagrams land
+in `architecture-overview.md` before requirements approval. The PR DAG lands in
+`sequence.md` before sequence approval. Each PR note may add a small nominal flow for
+its slice.
 
 ## Human approval and realignment
 
-Every run pauses at two approval checkpoints before builds:
+Every run pauses at these approval checkpoints before builds:
 
 1. Requirements approval, after Ponytail accepts the technical requirements.
-2. PR sequence approval, after the sequence and build packets are generated.
+2. PR sequence approval, after the sequence and PR notes are generated.
+3. Per-PR approval, before each PR build. This is on by default (`each-pr: true`);
+   set it to `false` in the preset to skip.
 
-At each pause, status is `awaiting-human-review`. The reviewer receives concise
-artifact links and exact versions. Universal Flow records the reviewer's
+At each pause, status is `awaiting-human-review`. The reviewer receives the published
+pack first, then exact versions. Universal Flow records the reviewer's
 identity, decision, timestamp, comments, and reviewed versions, then resumes
-only on explicit approval. Presets may add per-PR approval, but cannot remove
-the two mandatory gates.
+only on explicit approval. Per-PR approval supplements, and never replaces, the
+requirements and sequence checkpoints.
 
 Reviewers may edit names, requirements, design, scope, or sequence and request
 changes. Invoke `realign-run` with the run ID and review record. It preserves

@@ -10,6 +10,11 @@ The repository has no architecture or ADR convention.
 
 ```json
 {
+  "published": [
+    "docs/features/bulk-export/README.md",
+    "docs/features/bulk-export/technical-spec.md",
+    "docs/features/bulk-export/architecture-overview.md"
+  ],
   "drafts": [
     "architecture/bulk-export-overview.md",
     "architecture/bulk-export-backend.md",

@@ -9,8 +9,8 @@ Split delivery into backend, frontend, and infrastructure PRs. Also add an optio
 
 ## Expected architecture diagrams
 
-Cross-domain flow in `architecture/order-submission-overview.md`, sourced by
-`CONTRACT-submit-order` and `BEHAVIOR-order-confirmation`:
+Cross-domain flow in `docs/features/order-submission/architecture-overview.md`, sourced by
+Submit order and Order confirmation:
 
 ```mermaid
 flowchart LR
@@ -19,8 +19,8 @@ flowchart LR
   orderApi --> orderEvents["Order events"]
 ```
 
-Backend interaction in `architecture/order-submission-backend.md`, sourced by
-`CONTRACT-submit-order`:
+Backend interaction in the same overview or the backend PR note, sourced by
+Submit order:
 
 ```mermaid
 sequenceDiagram
@@ -34,8 +34,7 @@ sequenceDiagram
   orderApi-->>webApp: Return confirmation
 ```
 
-Topology in `architecture/order-submission-infrastructure.md`, sourced by
-`BEHAVIOR-order-event-runtime`:
+Topology in the architecture overview, sourced by Order event runtime:
 
 ```mermaid
 flowchart TB
@@ -46,7 +45,7 @@ flowchart TB
 
 ## Expected PR dependency DAG
 
-Embed in the readable order-submission sequence artifact before sequence approval:
+Embed in `docs/features/order-submission/sequence.md` before sequence approval:
 
 ```mermaid
 flowchart LR

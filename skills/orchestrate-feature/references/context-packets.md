@@ -45,10 +45,10 @@ Add:
 - product decisions and constraints
 
 The result must use named model/contract/state/behavior requirements and a dependency
-graph. Include architecture impact, durable target paths, and only meaningful versioned
-run-draft outputs. Include the diagram policy and each selected diagram's purpose, type,
-home, source requirements, and validation convention. It must not rely on unstated
-transcript context.
+graph. Include published spec, architecture-overview, and systems-summary paths, plus
+architecture impact and versioned run-draft outputs. Include the diagram policy and each
+selected diagram's purpose, type, home, source requirements, and validation convention.
+It must not rely on unstated transcript context.
 
 ## Build packet
 
@@ -60,6 +60,7 @@ Add:
 - allowed paths or components and explicit exclusions
 - contracts consumed or exposed
 - rollout/configuration duties
+- published PR note and owned architecture-overview facet paths
 - assigned durable architecture/ADR paths and versioned run-draft sources
 - approved diagrams assigned to those docs and their source requirement IDs
 - architecture/ADR paths explicitly outside this PR's ownership
@@ -100,6 +101,7 @@ Add:
 
 - approval checkpoint name, internal ID, and plain-language reason
 - reviewer or reviewer policy
+- published pack paths as the primary review files
 - readable artifact names, with exact IDs and versions as metadata
 - required diagram coverage or single-PR no-diagram statement
 - concise change summary, decisions, risks, and unresolved questions

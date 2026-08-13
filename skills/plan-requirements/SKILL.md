@@ -18,6 +18,8 @@ changes and acceptance, not line-by-line code.
 Do not rely on conversations or transcripts. If an input is missing or contradictory,
 return `blocked` with the exact artifact or decision needed.
 Apply the orchestrator human-readable output policy to every created element and path.
+Mint the published technical spec, systems summary, and architecture overview per the
+orchestrator published-docs policy. Keep detailed run drafts as evidence only.
 
 ## Requirement taxonomy
 
@@ -44,30 +46,29 @@ Give each requirement a display name and plain-language meaning, with an ID such
    exact durable architecture/ADR updates using discovered repository conventions.
 9. Apply the orchestrator diagram policy. Before requirements approval, select each
    required diagram and record its purpose, type, home, and source requirement IDs.
-10. Embed selected diagrams in their versioned run architecture drafts.
+10. Embed selected diagrams in the published architecture overview. Keep run drafts as
+    evidence copies.
 11. Verify that each requirement is necessary; leave implementation choices open unless
-   the choice is itself required for compatibility or correctness.
+    the choice is itself required for compatibility or correctness.
 
 Do not hide cross-area work in one requirement. Split it at the contract boundary.
 
-## Architecture drafts
+## Published architecture and spec
 
 When a change meaningfully alters system boundaries, contracts, data flow, deployment,
-or a consequential design decision, create source drafts under the run root at
-`architecture/`: `overview.md`, only relevant `frontend.md`, `backend.md`, or
-`infrastructure.md`, and an ADR only when a decision warrants one. Use readable
-feature/domain and decision-slug filenames from the output policy.
-Index and version each draft. State its target durable path from discovery, defaulting
-to `docs/architecture/` and `docs/adr/` only when no convention exists.
+or a consequential design decision, write the committed architecture overview with the
+end state, simple object models, contracts, and justified diagrams. Give each facet a
+stable heading. Write the technical spec with full PRD-derived behaviors. Write the
+systems summary as the feature README.
 
-Drafts are run evidence, not committed documentation. Do not create them for trivial
-implementation details, formatting, or unchanged architecture. Record `none` explicitly.
-Use embedded Mermaid by default unless discovery found a repository-native alternative.
-One diagram may cover multiple triggers; never add a diagram that only duplicates prose.
+Keep versioned copies under the run root as evidence. Do not create published docs for
+trivial implementation details. Record `none` when architecture is unchanged. Use
+embedded Mermaid unless discovery found a repository-native alternative.
 
 ## Output contract
 
-Write `requirements/<feature-slug>.md`:
+Write the run evidence file `requirements/<feature-slug>.md` and the published files
+`docs/features/<feature-slug>/{README,technical-spec,architecture-overview}.md`:
 
 ```markdown
 # Technical Requirements
@@ -114,6 +115,6 @@ an acceptance check. No orphan frontier items or requirements are allowed.
 
 Accept only if requirements are named, necessary, testable, area-owned, dependency-aware,
 evidence-backed, and explicit about architecture documentation and justified diagram
-coverage. Every selected diagram must already be embedded in its run draft. Escalate
-product choices; do not resolve them as technical details.
-Return status, counts by type and owner, blockers, and the artifact path.
+coverage. Every selected diagram must already be in the published architecture overview.
+Escalate product choices; do not resolve them as technical details.
+Return status, counts by type and owner, blockers, and the published paths.

@@ -1,6 +1,6 @@
 {
   "name": "universal-flow",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Preset-driven multi-agent delivery flow for Cursor.",
   "license": "MIT",
   "keywords": ["workflow", "multi-agent", "delivery"],
