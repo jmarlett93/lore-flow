@@ -41,7 +41,8 @@ Challenge:
 
 ## Output contract
 
-Write `prd-reviews/<feature-slug>.md` under the run root:
+Write `prd-reviews/<feature-slug>.md` under the run root. The published technical spec
+is minted later from this review; do not ask reviewers to open the run file.
 
 ```markdown
 # PRD Review

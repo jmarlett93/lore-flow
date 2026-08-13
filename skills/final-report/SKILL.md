@@ -16,7 +16,8 @@ claim success from agent confidence.
 - build reports and post-build Ponytail reviews
 - mandatory human review records and any realignment artifacts
 - decision log
-- indexed architecture draft versions and durable documentation assignments
+- published feature pack paths and durable documentation assignments
+- indexed architecture draft versions
 - indexed diagram coverage and build validation evidence
 
 Validate that referenced artifacts exist, their versions match mandatory approvals, and
@@ -50,8 +51,9 @@ Before writing:
 7. Collect decisions, deviations, residual risks, and intentionally deferred work.
 8. Confirm requirements and sequence approvals identify the versions that were built.
 9. Summarize realignments, aliases, supersession, and preserved unaffected work.
-10. Confirm every planned durable architecture doc/ADR was assigned once, updated by its
-    owning PR, and verified; distinguish it from run-only draft evidence.
+10. Confirm the published pack exists outside `.universal-flow/`: systems summary,
+    technical spec, architecture overview, sequence, and one note per PR. Confirm each
+    durable architecture doc/ADR was assigned once and verified.
 11. Confirm each required diagram's purpose, type, home, source requirements, delivery,
     and syntax/rendering evidence. Report justified no-diagram decisions.
 12. Identify the smallest next action for every blocker.
@@ -72,6 +74,7 @@ Outcome: completed | partially-completed | blocked | failed
 ## Frontier and requirement coverage
 ## Checks and review evidence
 ## Configuration and rollout
+## Published review pack
 ## Architecture documentation coverage
 ### Diagram coverage and validation
 ## Decisions and deviations

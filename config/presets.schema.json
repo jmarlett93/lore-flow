@@ -111,7 +111,7 @@
         },
         "each-pr": {
           "type": "boolean",
-          "default": false
+          "default": true
         }
       }
     },

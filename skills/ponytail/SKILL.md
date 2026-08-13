@@ -13,8 +13,9 @@ Apply the orchestrator human-readable output policy to findings, reviews, and na
 
 ### Pre-build: adversarial YAGNI review
 
-Inputs: PRD review, discovery reports, technical requirements, and decision log.
-Apply the orchestrator diagram policy to architecture drafts.
+Inputs: PRD review, discovery reports, technical requirements, published spec and
+architecture overview, and decision log.
+Apply the orchestrator diagram policy to the published architecture overview.
 
 Challenge each requirement:
 
@@ -25,7 +26,7 @@ Challenge each requirement:
 - Does it solve imagined future use cases?
 - Does it expand migration, rollout, security, or operational burden unnecessarily?
 - Is acceptance testable without prescribing incidental implementation?
-- Are required diagrams present, evidence-backed, accurate, and non-duplicative?
+- Are required diagrams in the published architecture overview, accurate, and needed?
 - Is any diagram decorative, speculative, or unnecessary under YAGNI?
 
 Seek missing requirements too, especially failures, accessibility, authorization,
@@ -35,7 +36,8 @@ omitting behavior needed for correctness.
 ### Post-build: antagonistic diff review
 
 Inputs: accepted requirement baseline, PR build packet, actual diff, and check summary.
-Review assigned durable architecture docs and diagram validation evidence.
+Review assigned published PR notes, architecture-overview facets, durable docs, and
+diagram validation evidence.
 
 Attempt to disprove that the diff is minimal and correct:
 

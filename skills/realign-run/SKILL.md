@@ -35,8 +35,8 @@ Assign every change one or more classes:
 If a rename changes meaning, classify the semantic change too. Record uncertainty and ask
 the reviewer; never downgrade a change to reduce reruns.
 
-For every design or naming change, record impact on versioned run architecture drafts and
-planned durable architecture/ADR paths. A design change regenerates only affected drafts
+For every design or naming change, record impact on the published spec, architecture
+overview, sequence, PR notes, run drafts, and durable architecture/ADR paths. A design change regenerates only affected drafts
 and revalidates their durable-doc assignments. A `rename-only` change preserves aliases,
 stable IDs, and decision history, and refreshes only documents that contain the affected
 name; it does not rewrite unrelated architecture.
@@ -115,7 +115,7 @@ Write `realignments/<change-slug>.md` containing:
 - run and realignment IDs, reviewer, decision, comments, and timestamp
 - changed artifact IDs and before/candidate versions
 - change classifications and alias updates
-- architecture draft and durable-document impact
+- published pack, architecture draft, and durable-document impact
 - impacted diagrams, preserved diagrams, and validation needed
 - transitive impact records and unaffected accepted artifacts
 - minimal phases and affected PRs to rerun

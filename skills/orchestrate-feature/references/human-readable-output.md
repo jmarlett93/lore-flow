@@ -31,6 +31,16 @@ consequence, and require separate approval. Never include it in bulk approval.
 
 Use stable lowercase slugs derived from feature, design, or action purpose:
 
+Published, committed review files:
+
+- `docs/features/<feature-slug>/README.md`
+- `docs/features/<feature-slug>/technical-spec.md`
+- `docs/features/<feature-slug>/architecture-overview.md`
+- `docs/features/<feature-slug>/sequence.md`
+- `docs/features/<feature-slug>/prs/<nn>-<domain>-<purpose-slug>.md`
+
+Run-folder evidence, gitignored with `.universal-flow/`:
+
 - `prd-reviews/<feature-slug>.md`
 - `requirements/<feature-slug>.md`
 - `architecture/<feature-slug>-overview.md`

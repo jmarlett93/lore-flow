@@ -31,6 +31,7 @@ Identify:
 - the area's existing architecture and ADR locations, naming/index conventions, and
   relevant current documents
 - existing diagram formats, Mermaid conventions, durable homes, and validation commands
+- existing feature-doc convention, or default `docs/features/<feature-slug>/`
 - constraints, risks, unknowns, and assumptions requiring validation
 
 Every material statement must cite a repository-relative path with line range or symbol,

@@ -8,16 +8,16 @@ Use [human-readable-output.md](human-readable-output.md) for diagram labels and 
 ## Required triggers and homes
 
 - A cross-system or domain-boundary change requires a current or proposed context or
-  component flowchart in the feature overview architecture draft.
-- A multi-step API, event, or job interaction requires a sequence diagram in the owning
-  domain draft, usually the readable backend architecture path.
+  component flowchart in published `architecture-overview.md`.
+- A multi-step API, event, or job interaction requires a sequence diagram in the
+  overview or the owning published PR note, usually backend.
 - A non-trivial lifecycle or UI/server state change requires a state diagram in the
-  relevant readable frontend or backend draft.
+  overview or the owning frontend/backend PR note.
 - An infrastructure topology, network, resource, or runtime change requires a deployment
-  or topology flowchart in the readable infrastructure architecture draft. Show local
-  and hosted differences when material.
-- More than one planned PR requires a Mermaid dependency DAG in the readable sequence
-  artifact. For one PR, state that no dependency diagram is needed.
+  or topology flowchart in the overview. Show local and hosted differences when material.
+- More than one planned PR requires a Mermaid dependency DAG in published `sequence.md`.
+  For one PR, state that no dependency diagram is needed.
+- A PR note may add a small nominal-flow diagram for that PR's slice only.
 - Add an ADR diagram only when the decision is hard to understand without it.
 
 One diagram may satisfy multiple triggers. Record `none` when no trigger is justified.
@@ -42,10 +42,10 @@ manual syntax review against these rules and do not claim rendered validation.
 
 ## Lifecycle
 
-Planning selects each required diagram before the requirements human gate and records its
-purpose, type, home, and source requirements. Draft diagrams are embedded in versioned
-run architecture files. Sequencing makes the PR DAG available before sequence approval.
-The owning PR carries approved draft diagrams into assigned durable architecture docs.
+Planning selects each required diagram before the requirements approval checkpoint and
+records its purpose, type, home, and source requirements. Embed those diagrams in the
+published architecture overview. Sequencing puts the PR DAG in published `sequence.md`
+before sequence approval. Owning PRs update overview facets and PR notes they own.
 
 Reviewers challenge missing, inaccurate, speculative, duplicated, or stale diagrams
 without requesting decorative ones. Realignment refreshes only impacted diagrams and
