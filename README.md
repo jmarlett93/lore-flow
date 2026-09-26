@@ -56,6 +56,13 @@ The installation contains one canonical `skills/` directory. Cursor loads
 `.cursor-plugin/plugin.json`; Claude Code loads `.claude-plugin/plugin.json`. Do not copy
 or maintain separate harness-specific skill implementations.
 
+### Optional Herdr adapter
+
+Herdr users can select `herdr` as the execution adapter. The adapter creates one
+workspace and `agents` tab for the run, then launches each Cursor builder in a real
+child pane while Universal Flow retains ownership of packets, worktrees, reviews, and
+recovery. See [adapters/herdr/README.md](adapters/herdr/README.md).
+
 ### Cursor Desktop
 
 Load the plugin for every Cursor workspace by linking it into Cursor's local plugin

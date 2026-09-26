@@ -18,7 +18,7 @@ Require:
 
 Accept optional constraints: issue or branch references, excluded paths, required checks,
 PR policy, deployment environments, required reviewers, extra per-PR approval policy,
-and user decisions already made.
+user decisions already made, and an execution adapter (`native` or `herdr`).
 
 Load `config/presets.json` from the Universal Flow installation, select the named preset,
 and resolve its harness plus role/model mappings. Treat preset values as configuration,
@@ -70,6 +70,10 @@ files. Record only applicable paths, why they apply, their content hashes, and
 Persist the requirements, architecture overview, guidance manifests, packet index, and
 versions in the run artifacts. The packet dependency graph is the execution plan.
 
+If the `herdr` adapter is selected, create one Herdr workspace and `agents` tab for
+the run using `adapters/herdr/universal-flow-herdr.sh`. Record the returned workspace,
+tab, and root pane IDs in the run artifact.
+
 ### 2. Review the specs
 
 Invoke `ponytail` against the complete technical-spec set before any build. It challenges
@@ -87,6 +91,13 @@ Dispatch one `build-pr` worker per ready packet in a dedicated git worktree. Use
 the packet, relevant repository instructions, dependency outputs, and approved
 artifacts. Independent packets run concurrently; dependent packets wait for their
 declared prerequisites.
+
+With the `herdr` adapter, split one child pane per ready packet, start Cursor Agent CLI
+in that pane with the selected builder model, and submit the bounded packet through
+`herdr agent prompt`. Keep the packet's worktree as the agent's working directory.
+Use `herdr agent wait` for completion; `blocked` is a recovery event and never a
+successful build. Native Cursor delegation remains the default when no adapter is
+selected.
 
 When a builder finishes, immediately invoke `ponytail` against that unit's diff and
 validation evidence. The review looks for unnecessary code, hidden coupling, contract
