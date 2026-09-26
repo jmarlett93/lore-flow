@@ -14,6 +14,7 @@ preserve strict frontend, backend, or infrastructure scope.
 - run root and build packet path
 - PR ID, base ref, branch intent, and worktree location policy
 - accepted requirement and review artifact paths with exact versions
+- guidance manifest path and exact version
 - human sequence review approving this exact packet and its input versions
 
 Reject a packet that lacks named requirements, acceptance checks, area, dependencies,
@@ -35,22 +36,24 @@ Apply the orchestrator human-readable output policy to build records and user na
 
 ## Build process
 
-1. Read the bounded packet and referenced artifact sections.
-2. Inspect relevant repository conventions and closest existing implementation.
-3. Plan the minimal diff needed for the assigned requirement IDs.
-4. Implement while keeping each change traceable to a requirement.
-5. Update only the assigned published PR note, owned architecture-overview facets, and
+1. Read the bounded packet, guidance manifest, and referenced artifact sections.
+2. Verify the guidance manifest paths and hashes against the approved repository state.
+3. Inspect relevant repository conventions and closest existing implementation.
+4. Plan the minimal diff needed for the assigned requirement IDs.
+5. Implement while keeping each change traceable to a requirement and the applicable
+   guidance.
+6. Update only the assigned published PR note, owned architecture-overview facets, and
    durable docs/ADRs. Carry approved diagrams into those files. Make no unrelated
    documentation or diagram edits.
-6. Verify changed documentation links, examples, commands, configuration references, and
+7. Verify changed documentation links, examples, commands, configuration references, and
    indexes against the implemented repository state. Validate diagram syntax and
    rendering with repository tooling when available; otherwise perform and record a
    manual policy check.
-7. Add or update tests for observable acceptance and meaningful failures.
-8. Run the narrowest relevant checks first, then required repository-native checks.
-9. Inspect the final diff for area leakage, unassigned architecture docs, generated
+8. Add or update tests for observable acceptance and meaningful failures.
+9. Run the narrowest relevant checks first, then required repository-native checks.
+10. Inspect the final diff for area leakage, unassigned architecture docs, generated
    churn, secrets, and unrelated edits.
-10. Write the build report; do not claim checks that were not run.
+11. Write the build report; do not claim checks or guidance usage that were not verified.
 
 Escalate rather than implement when a change:
 
@@ -90,6 +93,8 @@ Outcome: ready-for-review | blocked | failed
 ## Local and hosted configuration
 ## Tests and checks
 - [command/check]: pass | fail | not-run — [evidence/reason]
+## Guidance used
+- [repository-relative path] — required | recommended | skipped — [why it applied or why it was skipped]
 ## Diff reference
 ## Deviations and decisions
 ## Risks and follow-up
@@ -97,7 +102,8 @@ Outcome: ready-for-review | blocked | failed
 ```
 
 Evidence must include repository-relative files and symbols, summarized check results,
-and the diff ref or patch location needed by post-build Ponytail review.
+the guidance manifest version and the diff ref or patch location needed by post-build
+Ponytail review.
 
 ## Completion
 

@@ -62,7 +62,12 @@ independent implementation unit.
 
 Each packet names the requirement frontier, owned files, contracts, side effects,
 dependencies, acceptance checks, and the smallest implementation that satisfies the
-requirement. Persist the requirements, architecture overview, packet index, and
+requirement. Before publishing a packet, create its guidance manifest at
+`.universal-flow/runs/<run-id>/guidance/<packet-id>.md`. Inspect the target repository's
+`AGENTS.md`, applicable `.cursor/rules/`, `.agents/skills/`, and any nested instruction
+files. Record only applicable paths, why they apply, their content hashes, and
+`required` / `recommended` / `not-applicable` status; do not copy their contents.
+Persist the requirements, architecture overview, guidance manifests, packet index, and
 versions in the run artifacts. The packet dependency graph is the execution plan.
 
 ### 2. Review the specs

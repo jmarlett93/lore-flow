@@ -12,6 +12,7 @@ paths, and all returned narration.
 - objective and explicit non-goals
 - target repository and allowed scope
 - accepted input names, with IDs, versions, and paths as metadata
+- guidance manifest path and version
 - relevant named requirements, with IDs for traceability
 - named decisions and consequences that constrain the task
 - dependencies and current status
@@ -22,6 +23,25 @@ paths, and all returned narration.
 
 Include evidence excerpts only when a path and symbol are insufficient. Never include
 chat history, hidden reasoning, full discovery logs, or unrelated source files.
+
+## Guidance manifest
+
+The orchestrator creates one guidance manifest for each implementation packet under
+`.universal-flow/runs/<run-id>/guidance/<packet-id>.md`. The manifest is a bounded list
+of applicable repository guidance, not a copy of its contents.
+
+Each entry records:
+
+- repository-relative path;
+- kind: `AGENTS.md`, `cursor-rule`, or `skill`;
+- why it applies to the packet;
+- content hash from the approved repository state;
+- status: `required`, `recommended`, or `not-applicable`.
+
+The packet references the exact manifest version. Builders read it before mutation and
+record the guidance they used in the build report. They may mark an entry skipped only
+with a short reason. Do not report harness-internal system prompts or duplicate full rule
+contents.
 
 ## Discovery packet
 
@@ -58,6 +78,7 @@ Add:
 - named requirements in scope, with exact IDs as metadata
 - acceptance checks and repository-native test commands
 - allowed paths or components and explicit exclusions
+- guidance manifest path and exact version
 - contracts consumed or exposed
 - rollout/configuration duties
 - published PR note and owned architecture-overview facet paths

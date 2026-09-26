@@ -183,6 +183,7 @@ Each run writes recovery evidence under the target repository. Gitignore this tr
 ├── prd-reviews/<feature-slug>.md
 ├── discovery/
 ├── requirements/<feature-slug>.md
+├── guidance/<packet-id>.md
 ├── architecture/
 ├── decisions/
 ├── human-reviews/
@@ -328,6 +329,9 @@ skills narrow and actionable—for example, TypeScript conventions, test
 commands, accessibility checks, database migration rules, or release
 requirements—and reference them from repository agent guidance when necessary.
 
-Workers load the applicable target-repository skills before editing and record
-which standards guided the unit. Repository instructions override generic
-workflow examples when they do not violate a run's explicit safety gates.
+The orchestrator creates a small guidance manifest for each implementation packet.
+It records applicable `AGENTS.md`, `.cursor/rules/`, and `.agents/skills/` paths,
+reasons, statuses, and content hashes without copying their contents. Workers read
+the exact manifest before editing and record guidance used or explicitly skipped in
+the build report. Repository instructions override generic workflow examples when
+they do not violate a run's explicit safety gates.
