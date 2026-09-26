@@ -262,6 +262,136 @@
         }
       }
     },
+    "cursor.simple": {
+      "label": "Cursor · Simple",
+      "description": "Opus-led technical specifications and recovery with parallel Cursor implementation and Ponytail review.",
+      "harness": "cursor",
+      "mode": "simple",
+      "approvalGates": {
+        "technical-requirements": true,
+        "pr-sequence": false,
+        "each-pr": false
+      },
+      "roles": {
+        "orchestrator": {
+          "label": "Opus Flow Orchestrator",
+          "models": ["claude-opus-5-5-medium"],
+          "effort": "max",
+          "output": "run.md",
+          "concurrency": { "maxInstances": 1 },
+          "retry": { "maxAttempts": 3, "backoff": "exponential" },
+          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+        },
+        "prd-reviewer": {
+          "label": "Opus Requirements Reviewer",
+          "models": ["claude-opus-5-5-medium"],
+          "effort": "high",
+          "output": "prd-review.md",
+          "concurrency": { "maxInstances": 1 },
+          "retry": { "maxAttempts": 2, "backoff": "linear" },
+          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+        },
+        "discovery-frontend": {
+          "label": "Cursor Frontend Discovery",
+          "models": ["cursor-grok-4.6-high-fast"],
+          "effort": "medium",
+          "output": "discovery/frontend.md",
+          "concurrency": { "maxInstances": 2 },
+          "retry": { "maxAttempts": 2, "backoff": "linear" },
+          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+        },
+        "discovery-backend": {
+          "label": "Cursor Backend Discovery",
+          "models": ["cursor-grok-4.6-high-fast"],
+          "effort": "medium",
+          "output": "discovery/backend.md",
+          "concurrency": { "maxInstances": 2 },
+          "retry": { "maxAttempts": 2, "backoff": "linear" },
+          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+        },
+        "discovery-infra": {
+          "label": "Cursor Infrastructure Discovery",
+          "models": ["cursor-grok-4.6-high-fast"],
+          "effort": "medium",
+          "output": "discovery/infra.md",
+          "concurrency": { "maxInstances": 2 },
+          "retry": { "maxAttempts": 2, "backoff": "linear" },
+          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+        },
+        "requirements-planner": {
+          "label": "Opus Technical Spec Planner",
+          "models": ["claude-opus-5-5-medium"],
+          "effort": "high",
+          "output": "requirements.md",
+          "concurrency": { "maxInstances": 1 },
+          "retry": { "maxAttempts": 3, "backoff": "exponential" },
+          "reviewLoop": { "enabled": true, "maxCycles": 1, "reviewers": ["ponytail"] }
+        },
+        "realign-run": {
+          "label": "Opus Recovery Coordinator",
+          "models": ["claude-opus-5-5-medium"],
+          "effort": "high",
+          "output": "realignments/<realignment-id>.md",
+          "concurrency": { "maxInstances": 1 },
+          "retry": { "maxAttempts": 3, "backoff": "exponential" },
+          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+        },
+        "ponytail": {
+          "label": "Opus Ponytail Reviewer",
+          "models": ["claude-opus-5-5-medium"],
+          "effort": "high",
+          "output": "ponytail-pre-build.md or reviews/<pr-id>-ponytail.md",
+          "concurrency": { "maxInstances": 4 },
+          "retry": { "maxAttempts": 2, "backoff": "linear" },
+          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+        },
+        "pr-sequencer": {
+          "label": "Opus Spec Dependency Planner",
+          "models": ["claude-opus-5-5-medium"],
+          "effort": "high",
+          "output": "pr-sequence.md",
+          "concurrency": { "maxInstances": 1 },
+          "retry": { "maxAttempts": 2, "backoff": "linear" },
+          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+        },
+        "builder-frontend": {
+          "label": "Cursor Frontend Builder",
+          "models": ["cursor-grok-4.6-high-fast"],
+          "effort": "high",
+          "output": "builds/<pr-id>.md",
+          "concurrency": { "maxInstances": 8 },
+          "retry": { "maxAttempts": 2, "backoff": "exponential" },
+          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+        },
+        "builder-backend": {
+          "label": "Cursor Backend Builder",
+          "models": ["cursor-grok-4.6-high-fast"],
+          "effort": "high",
+          "output": "builds/<pr-id>.md",
+          "concurrency": { "maxInstances": 8 },
+          "retry": { "maxAttempts": 2, "backoff": "exponential" },
+          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+        },
+        "builder-infra": {
+          "label": "Cursor Infrastructure Builder",
+          "models": ["cursor-grok-4.6-high-fast"],
+          "effort": "high",
+          "output": "builds/<pr-id>.md",
+          "concurrency": { "maxInstances": 4 },
+          "retry": { "maxAttempts": 2, "backoff": "exponential" },
+          "reviewLoop": { "enabled": true, "maxCycles": 2, "reviewers": ["ponytail"] }
+        },
+        "final-reporter": {
+          "label": "Opus Final Reporter",
+          "models": ["claude-opus-5-5-medium"],
+          "effort": "high",
+          "output": "final-report.md",
+          "concurrency": { "maxInstances": 1 },
+          "retry": { "maxAttempts": 2, "backoff": "linear" },
+          "reviewLoop": { "enabled": false, "maxCycles": 0, "reviewers": [] }
+        }
+      }
+    },
     "claude.normal": {
       "label": "Claude · Normal",
       "description": "Balanced Claude routing with Opus coordination, Haiku discovery, and Sonnet planning and implementation.",

@@ -20,6 +20,7 @@
       "required": [
         "cursor.normal",
         "cursor.heavy",
+        "cursor.simple",
         "claude.normal",
         "claude.heavy"
       ],
@@ -28,6 +29,9 @@
           "$ref": "#/$defs/preset"
         },
         "cursor.heavy": {
+          "$ref": "#/$defs/preset"
+        },
+        "cursor.simple": {
           "$ref": "#/$defs/preset"
         },
         "claude.normal": {
@@ -57,7 +61,7 @@
           "enum": ["cursor", "claude"]
         },
         "mode": {
-          "enum": ["normal", "heavy"]
+          "enum": ["normal", "heavy", "simple"]
         },
         "approvalGates": {
           "$ref": "#/$defs/approvalGates"
@@ -104,10 +108,10 @@
       "required": ["technical-requirements", "pr-sequence"],
       "properties": {
         "technical-requirements": {
-          "const": true
+          "type": "boolean"
         },
         "pr-sequence": {
-          "const": true
+          "type": "boolean"
         },
         "each-pr": {
           "type": "boolean",
@@ -140,9 +144,11 @@
           "items": {
             "enum": [
               "claude-opus-5-thinking-high",
+              "claude-opus-5-5-medium",
               "claude-sonnet-5-thinking-high",
               "composer-2.5-fast",
               "cursor-grok-4.5-high-fast",
+              "cursor-grok-4.6-high-fast",
               "gpt-5.6-sol-medium",
               "gpt-5.6-terra-medium",
               "opus",

@@ -13,16 +13,20 @@ allowing each harness to use its native delegation and review features.
 
 ## Presets
 
-Universal Flow offers two operating presets:
+Universal Flow offers three operating presets:
 
 - **normal** favors short plans, a small number of agents, and focused reviews;
   use it for routine changes with known boundaries.
 - **heavy** adds deeper decomposition, stricter dependency gates, and more
   review passes; use it for migrations, cross-system work, or high-risk changes.
+- **simple** uses one Opus-led spec/recovery loop, Ponytail gates, and parallel
+  Cursor builders; use it when independent technical specs can be implemented
+  concurrently.
 
 A preset is a starting policy, not a promise that a particular model or amount
 of parallelism is available. Select the harness-qualified key from
-`config/presets.json`, such as `cursor.normal` or `claude.heavy`.
+`config/presets.json`, such as `cursor.simple`, `cursor.normal`, or
+`claude.heavy`.
 
 ## Compatibility
 
@@ -124,7 +128,7 @@ Before the first build run:
 2. Confirm the selected key exists in `config/presets.json`.
 3. Confirm the configured model candidates are available to the account.
 4. Confirm the target repository is a clean, usable Git checkout.
-5. Run planning first and verify that it pauses at the mandatory requirements review.
+5. Run planning first and verify that it pauses at the technical-spec review.
 
 ## Invoke a run
 
@@ -132,12 +136,13 @@ Invoke the Universal Flow orchestration skill with:
 
 1. a PRD, issue, or concise change description;
 2. the target repository and base branch;
-3. a harness-qualified preset such as `cursor.normal` or `claude.heavy`; and
+3. a harness-qualified preset such as `cursor.simple`, `cursor.normal`, or
+   `claude.heavy`; and
 4. any required reviewers, model preferences, or repository constraints.
 
 For Cursor, invoke `/orchestrate-feature` or ask:
 
-> Run Universal Flow with `cursor.normal` for this PRD against `main`.
+> Run Universal Flow with `cursor.simple` for this PRD against `main`.
 
 For Claude Code, invoke:
 
