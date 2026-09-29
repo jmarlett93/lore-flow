@@ -1,6 +1,6 @@
 ---
 name: ponytail
-description: Performs adversarial Universal Flow reviews: YAGNI scope challenge before building and antagonistic requirement-to-diff review after building. Use at both mandatory quality gates.
+description: Performs adversarial Lore Flow reviews: YAGNI scope challenge before building and antagonistic requirement-to-diff review after building. Use at both mandatory quality gates.
 ---
 
 # Ponytail

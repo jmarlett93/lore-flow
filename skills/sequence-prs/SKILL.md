@@ -1,6 +1,6 @@
 ---
 name: sequence-prs
-description: Splits human-approved Universal Flow requirements into dependency-aware frontend, backend, and infrastructure pull requests with bounded build packets. Use after pre-build Ponytail and human requirements approval.
+description: Splits human-approved Lore Flow requirements into dependency-aware frontend, backend, and infrastructure pull requests with bounded build packets. Use after pre-build Ponytail and human requirements approval.
 ---
 
 # Sequence PRs

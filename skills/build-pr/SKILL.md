@@ -1,6 +1,6 @@
 ---
 name: build-pr
-description: Implements one sequenced Universal Flow pull request in an isolated git worktree, verifies its named requirements, and emits an evidence-backed build report. Use for each approved PR build packet.
+description: Implements one sequenced Lore Flow pull request in an isolated git worktree, verifies its named requirements, and emits an evidence-backed build report. Use for each approved PR build packet.
 ---
 
 # Build PR

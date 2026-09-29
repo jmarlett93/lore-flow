@@ -1,6 +1,6 @@
-# Universal Flow
+# Lore Flow
 
-Universal Flow is a portable, skills-only workflow plugin for turning a product
+Lore Flow is a portable, skills-only workflow plugin for turning a product
 requirement into a sequenced set of implementation branches and reviews. It
 does not ship a runtime, service, or project template. The workflow lives in
 one canonical root `skills/` directory so Cursor and Claude Code execute the
@@ -13,7 +13,7 @@ allowing each harness to use its native delegation and review features.
 
 ## Presets
 
-Universal Flow offers three operating presets:
+Lore Flow offers three operating presets:
 
 - **normal** favors short plans, a small number of agents, and focused reviews;
   use it for routine changes with known boundaries.
@@ -30,7 +30,7 @@ of parallelism is available. Select the harness-qualified key from
 
 ## Product spec mode
 
-Universal Flow also provides a separate `product-spec` mode for turning an idea
+Lore Flow also provides a separate `product-spec` mode for turning an idea
 or product change into an approved PRD before implementation planning. It is a
 human-in-the-loop interview and review loop, not a build preset:
 
@@ -39,7 +39,7 @@ idea or change → product context → focused interview → PRD review
              → human approval → product/prds/<feature-slug>.md
 ```
 
-Invoke `/product-spec` (or ask the active harness to run Universal Flow's
+Invoke `/product-spec` (or ask the active harness to run Lore Flow's
 product-spec mode) against a target repository. The mode reads and, when
 missing, bootstraps this durable context:
 
@@ -61,7 +61,7 @@ mode never launches builders automatically.
 
 ## Compatibility
 
-Universal Flow can operate against any repository opened by a current Cursor or
+Lore Flow can operate against any repository opened by a current Cursor or
 Claude Code installation, subject to these requirements:
 
 - The target must be a Git repository because builders use branches and worktrees.
@@ -76,11 +76,11 @@ the harness's normal Git hosting authentication.
 
 ## Install
 
-Clone or vendor Universal Flow at a stable path outside the target repository:
+Clone or vendor Lore Flow at a stable path outside the target repository:
 
 ```bash
-git clone YOUR_UNIVERSAL_FLOW_REPOSITORY_URL "$HOME/tools/universal-flow"
-export UNIVERSAL_FLOW_HOME="$HOME/tools/universal-flow"
+git clone YOUR_LORE_FLOW_REPOSITORY_URL "$HOME/tools/lore-flow"
+export LORE_FLOW_HOME="$HOME/tools/lore-flow"
 ```
 
 The installation contains one canonical `skills/` directory. Cursor loads
@@ -91,7 +91,7 @@ or maintain separate harness-specific skill implementations.
 
 Herdr users can select `herdr` as the execution adapter. The adapter creates one
 workspace and `agents` tab for the run, then launches each Cursor builder in a real
-child pane while Universal Flow retains ownership of packets, worktrees, reviews, and
+child pane while Lore Flow retains ownership of packets, worktrees, reviews, and
 recovery. See [adapters/herdr/README.md](adapters/herdr/README.md).
 
 ### Cursor Desktop
@@ -101,51 +101,51 @@ directory:
 
 ```bash
 mkdir -p ~/.cursor/plugins/local
-ln -s "$UNIVERSAL_FLOW_HOME" ~/.cursor/plugins/local/universal-flow
+ln -s "$LORE_FLOW_HOME" ~/.cursor/plugins/local/lore-flow
 ```
 
 Restart Cursor or run **Developer: Reload Window**. In Cursor's customization view,
-confirm that the `universal-flow` plugin, its skills, and its custom agents are listed.
+confirm that the `lore-flow` plugin, its skills, and its custom agents are listed.
 
 On Windows, use a directory junction or copy the plugin into
-`%USERPROFILE%\.cursor\plugins\local\universal-flow`.
+`%USERPROFILE%\.cursor\plugins\local\lore-flow`.
 
 ### Cursor CLI
 
-Load Universal Flow for one session without installing it globally:
+Load Lore Flow for one session without installing it globally:
 
 ```bash
 cd /path/to/target-repository
-agent --workspace "$PWD" --plugin-dir "$UNIVERSAL_FLOW_HOME"
+agent --workspace "$PWD" --plugin-dir "$LORE_FLOW_HOME"
 ```
 
-The `--plugin-dir` option is useful for testing changes to Universal Flow before updating
+The `--plugin-dir` option is useful for testing changes to Lore Flow before updating
 a shared installation.
 
 ### Claude Code
 
-Load Universal Flow for one session from the target repository:
+Load Lore Flow for one session from the target repository:
 
 ```bash
 cd /path/to/target-repository
-claude --plugin-dir "$UNIVERSAL_FLOW_HOME"
+claude --plugin-dir "$LORE_FLOW_HOME"
 ```
 
 Confirm it appears in `/plugin`. Plugin skills are namespaced, so the orchestration skill
-is available as `/universal-flow:orchestrate-feature`.
+is available as `/lore-flow:orchestrate-feature`.
 
 For persistent installation, add this repository as a Claude Code marketplace and install
 the plugin. Project scope records the installation in the target repository:
 
 ```bash
-claude plugin marketplace add jmarlett93/universal-flow
-claude plugin install universal-flow@universal-flow --scope project
+claude plugin marketplace add jmarlett93/lore-flow
+claude plugin install lore-flow@lore-flow --scope project
 ```
 
 After a release version is published, update an existing installation with:
 
 ```bash
-claude plugin update universal-flow@universal-flow
+claude plugin update lore-flow@lore-flow
 ```
 
 For local development, continue to use `--plugin-dir`; it loads the checked-out files
@@ -155,14 +155,14 @@ directly without marketplace caching.
 
 For a cloned installation, update it with the repository's normal Git workflow, then
 reload the harness. Remove a Cursor local installation by deleting only the
-`~/.cursor/plugins/local/universal-flow` link. Session-only `--plugin-dir` loading leaves
+`~/.cursor/plugins/local/lore-flow` link. Session-only `--plugin-dir` loading leaves
 no installation in the target repository.
 
 ## Verify the installation
 
 Before the first build run:
 
-1. Confirm all Universal Flow skills and harness agents are visible.
+1. Confirm all Lore Flow skills and harness agents are visible.
 2. Confirm the selected key exists in `config/presets.json`.
 3. Confirm the configured model candidates are available to the account.
 4. Confirm the target repository is a clean, usable Git checkout.
@@ -170,7 +170,7 @@ Before the first build run:
 
 ## Invoke a run
 
-Invoke the Universal Flow orchestration skill with:
+Invoke the Lore Flow orchestration skill with:
 
 1. a PRD, issue, or concise change description;
 2. the target repository and base branch;
@@ -180,12 +180,12 @@ Invoke the Universal Flow orchestration skill with:
 
 For Cursor, invoke `/orchestrate-feature` or ask:
 
-> Run Universal Flow with `cursor.simple` for this PRD against `main`.
+> Run Lore Flow with `cursor.simple` for this PRD against `main`.
 
 For Claude Code, invoke:
 
 ```text
-/universal-flow:orchestrate-feature Run with claude.normal for this PRD against main.
+/lore-flow:orchestrate-feature Run with claude.normal for this PRD against main.
 ```
 
 The orchestrator decomposes the request, records dependencies, and dispatches
@@ -193,7 +193,7 @@ only work whose prerequisites are satisfied.
 
 ## Published review pack
 
-Reviewers should not open `.universal-flow/`. After planning, the workflow mints a
+Reviewers should not open `.lore-flow/`. After planning, the workflow mints a
 committed pack, by default:
 
 ```text
@@ -206,7 +206,7 @@ docs/features/<feature-slug>/
     └── <nn>-<domain>-<purpose>.md # this PR's slice, with pseudo-code or nominal flow
 ```
 
-Each PR note links to facets of the architecture overview. Keep `.universal-flow/` in
+Each PR note links to facets of the architecture overview. Keep `.lore-flow/` in
 the target repository `.gitignore`; copy [templates/gitignore](templates/gitignore) if
 needed.
 
@@ -215,7 +215,7 @@ needed.
 Each run writes recovery evidence under the target repository. Gitignore this tree:
 
 ```text
-.universal-flow/runs/<run-id>/
+.lore-flow/runs/<run-id>/
 ├── run.md
 ├── artifact-index.md
 ├── prd-reviews/<feature-slug>.md
@@ -273,7 +273,7 @@ Every run pauses at these approval checkpoints before builds:
    set it to `false` in the preset to skip.
 
 At each pause, status is `awaiting-human-review`. The reviewer receives the published
-pack first, then exact versions. Universal Flow records the reviewer's
+pack first, then exact versions. Lore Flow records the reviewer's
 identity, decision, timestamp, comments, and reviewed versions, then resumes
 only on explicit approval. Per-PR approval supplements, and never replaces, the
 requirements and sequence checkpoints.
@@ -358,7 +358,7 @@ silently weaken a required review.
 
 ## Repository coding standards
 
-Universal Flow supplies workflow skills, not target-specific coding policy.
+Lore Flow supplies workflow skills, not target-specific coding policy.
 Target repositories should expose their coding standards as discoverable skills
 in the locations supported by each harness. A repository can keep standards in
 one canonical directory and link each skill into `.cursor/skills/` and

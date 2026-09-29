@@ -4,10 +4,10 @@ set -euo pipefail
 usage() {
   cat >&2 <<'EOF'
 Usage:
-  universal-flow-herdr.sh workspace --cwd DIR --label LABEL
-  universal-flow-herdr.sh worker --pane PANE_ID --name NAME --cwd DIR --model MODEL \
+  lore-flow-herdr.sh workspace --cwd DIR --label LABEL
+  lore-flow-herdr.sh worker --pane PANE_ID --name NAME --cwd DIR --model MODEL \
     --prompt-file FILE [--run-id ID] [--packet-id ID]
-  universal-flow-herdr.sh wait --name NAME [--timeout MS]
+  lore-flow-herdr.sh wait --name NAME [--timeout MS]
 EOF
   exit 2
 }

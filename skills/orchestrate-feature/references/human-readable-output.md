@@ -39,7 +39,7 @@ Published, committed review files:
 - `docs/features/<feature-slug>/sequence.md`
 - `docs/features/<feature-slug>/prs/<nn>-<domain>-<purpose-slug>.md`
 
-Run-folder evidence, gitignored with `.universal-flow/`:
+Run-folder evidence, gitignored with `.lore-flow/`:
 
 - `prd-reviews/<feature-slug>.md`
 - `requirements/<feature-slug>.md`

@@ -6,7 +6,7 @@ description: Interviews a product owner and iterates an approved product require
 # Product Spec
 
 Create or revise a product requirements document without implementing software.
-This is the product-discovery mode for Universal Flow. It ends with an
+This is the product-discovery mode for Lore Flow. It ends with an
 explicitly approved PRD that can be passed to `orchestrate-feature`.
 
 ## Inputs
@@ -126,7 +126,7 @@ and approval. Never overwrite approved history.
 Create or update:
 
 - `product/prds/<feature-slug>.md` as the approved PRD
-- `.universal-flow/product-specs/<run-id>/` as ignored run evidence, including
+- `.lore-flow/product-specs/<run-id>/` as ignored run evidence, including
   interview decisions, context inventory, draft versions, review findings, and
   approval record
 

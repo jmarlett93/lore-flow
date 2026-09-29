@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://universal-flow.dev/schemas/presets.schema.json",
-  "title": "Universal Flow Harness Presets",
-  "description": "Model routing and execution policy for Universal Flow roles.",
+  "$id": "https://lore-flow.dev/schemas/presets.schema.json",
+  "title": "Lore Flow Harness Presets",
+  "description": "Model routing and execution policy for Lore Flow roles.",
   "type": "object",
   "additionalProperties": false,
   "required": ["version", "presets"],

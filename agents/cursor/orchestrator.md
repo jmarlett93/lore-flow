@@ -1,6 +1,6 @@
 ---
 name: orchestrator
-description: Coordinates a Universal Flow run from intake through final reporting.
+description: Coordinates a Lore Flow run from intake through final reporting.
 ---
 
 # Contract

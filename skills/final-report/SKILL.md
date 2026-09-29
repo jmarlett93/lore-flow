@@ -1,6 +1,6 @@
 ---
 name: final-report
-description: Produces the concise, evidence-backed Universal Flow completion report across PR sequencing, requirement coverage, builds, checks, reviews, risks, and artifacts. Use at the end of a run or when handing off a blocked run.
+description: Produces the concise, evidence-backed Lore Flow completion report across PR sequencing, requirement coverage, builds, checks, reviews, risks, and artifacts. Use at the end of a run or when handing off a blocked run.
 ---
 
 # Final Report
@@ -51,7 +51,7 @@ Before writing:
 7. Collect decisions, deviations, residual risks, and intentionally deferred work.
 8. Confirm requirements and sequence approvals identify the versions that were built.
 9. Summarize realignments, aliases, supersession, and preserved unaffected work.
-10. Confirm the published pack exists outside `.universal-flow/`: systems summary,
+10. Confirm the published pack exists outside `.lore-flow/`: systems summary,
     technical spec, architecture overview, sequence, and one note per PR. Confirm each
     durable architecture doc/ADR was assigned once and verified.
 11. Confirm each required diagram's purpose, type, home, source requirements, delivery,
@@ -63,7 +63,7 @@ Before writing:
 Write `reports/<feature-slug>-final.md`:
 
 ```markdown
-# Universal Flow Final Report
+# Lore Flow Final Report
 Display name:
 Plain-language purpose:
 Internal ID:

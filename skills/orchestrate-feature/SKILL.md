@@ -1,11 +1,11 @@
 ---
 name: orchestrate-feature
-description: Runs or resumes Universal Flow through technical specs, Ponytail review, parallel builds, targeted recovery, and reporting.
+description: Runs or resumes Lore Flow through technical specs, Ponytail review, parallel builds, targeted recovery, and reporting.
 ---
 
 # Orchestrate Feature
 
-Run Universal Flow without assuming a specific agent harness. Delegate by capability,
+Run Lore Flow without assuming a specific agent harness. Delegate by capability,
 persist artifacts in the target repository, and keep the parent context small.
 
 ## Inputs
@@ -20,7 +20,7 @@ Accept optional constraints: issue or branch references, excluded paths, require
 PR policy, deployment environments, required reviewers, extra per-PR approval policy,
 user decisions already made, and an execution adapter (`native` or `herdr`).
 
-Load `config/presets.json` from the Universal Flow installation, select the named preset,
+Load `config/presets.json` from the Lore Flow installation, select the named preset,
 and resolve its harness plus role/model mappings. Treat preset values as configuration,
 not workflow semantics. If the preset, harness adapter, or required role is unavailable,
 stop with a precise missing-input report; never silently substitute a harness or model.
@@ -29,7 +29,7 @@ stop with a precise missing-input report; never silently substitute a harness or
 
 Create a unique `run-id` and use this artifact root in the target repository:
 
-`.universal-flow/runs/<run-id>/`
+`.lore-flow/runs/<run-id>/`
 
 Initialize the run and artifact index according to
 [run-schema.md](references/run-schema.md). Read
@@ -39,7 +39,7 @@ Initialize the run and artifact index according to
 [published-docs.md](references/published-docs.md) before delegating.
 Include those policies and relevant assignments in every packet.
 
-`.universal-flow/` is run machinery. If the target repository has no ignore rule for it,
+`.lore-flow/` is run machinery. If the target repository has no ignore rule for it,
 add the template at `templates/gitignore`. Human approval uses the published pack under
 `docs/features/<feature-slug>/`, not the run folder.
 
@@ -63,7 +63,7 @@ independent implementation unit.
 Each packet names the requirement frontier, owned files, contracts, side effects,
 dependencies, acceptance checks, and the smallest implementation that satisfies the
 requirement. Before publishing a packet, create its guidance manifest at
-`.universal-flow/runs/<run-id>/guidance/<packet-id>.md`. Inspect the target repository's
+`.lore-flow/runs/<run-id>/guidance/<packet-id>.md`. Inspect the target repository's
 `AGENTS.md`, applicable `.cursor/rules/`, `.agents/skills/`, and any nested instruction
 files. Record only applicable paths, why they apply, their content hashes, and
 `required` / `recommended` / `not-applicable` status; do not copy their contents.
@@ -71,7 +71,7 @@ Persist the requirements, architecture overview, guidance manifests, packet inde
 versions in the run artifacts. The packet dependency graph is the execution plan.
 
 If the `herdr` adapter is selected, create one Herdr workspace and `agents` tab for
-the run using `adapters/herdr/universal-flow-herdr.sh`. Record the returned workspace,
+the run using `adapters/herdr/lore-flow-herdr.sh`. Record the returned workspace,
 tab, and root pane IDs in the run artifact.
 
 ### 2. Review the specs

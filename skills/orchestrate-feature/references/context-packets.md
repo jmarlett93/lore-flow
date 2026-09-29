@@ -27,7 +27,7 @@ chat history, hidden reasoning, full discovery logs, or unrelated source files.
 ## Guidance manifest
 
 The orchestrator creates one guidance manifest for each implementation packet under
-`.universal-flow/runs/<run-id>/guidance/<packet-id>.md`. The manifest is a bounded list
+`.lore-flow/runs/<run-id>/guidance/<packet-id>.md`. The manifest is a bounded list
 of applicable repository guidance, not a copy of its contents.
 
 Each entry records:

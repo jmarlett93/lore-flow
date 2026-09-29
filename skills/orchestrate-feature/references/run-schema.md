@@ -1,4 +1,4 @@
-# Universal Flow Run Schema
+# Lore Flow Run Schema
 
 Use human-readable Markdown. JSON-compatible values shown below define required fields,
 not a requirement to use JSON.
@@ -6,7 +6,7 @@ Apply [human-readable-output.md](human-readable-output.md) to all records and pa
 
 ## Run manifest
 
-Create `.universal-flow/runs/<run-id>/run.md` with:
+Create `.lore-flow/runs/<run-id>/run.md` with:
 
 - `run-id`: unique, filesystem-safe identifier
 - `status`: `active`, `awaiting-human-review`, `realigning`, `blocked`, `completed`, or
@@ -118,7 +118,7 @@ Architecture files under the run root are versioned evidence. Durable domain doc
 follow the repository convention, or `docs/architecture/` and `docs/adr/` when none
 exists. Diagrams live in the published architecture overview and PR notes by default.
 
-Target repositories should gitignore `.universal-flow/`.
+Target repositories should gitignore `.lore-flow/`.
 
 ## Evidence
 
