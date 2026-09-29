@@ -28,6 +28,37 @@ of parallelism is available. Select the harness-qualified key from
 `config/presets.json`, such as `cursor.simple`, `cursor.normal`, or
 `claude.heavy`.
 
+## Product spec mode
+
+Universal Flow also provides a separate `product-spec` mode for turning an idea
+or product change into an approved PRD before implementation planning. It is a
+human-in-the-loop interview and review loop, not a build preset:
+
+```text
+idea or change → product context → focused interview → PRD review
+             → human approval → product/prds/<feature-slug>.md
+```
+
+Invoke `/product-spec` (or ask the active harness to run Universal Flow's
+product-spec mode) against a target repository. The mode reads and, when
+missing, bootstraps this durable context:
+
+```text
+product/
+├── CURRENT_PRODUCT_STATE.md
+├── PERSONAS.md
+├── GLOSSARY.md
+└── prds/
+    └── <feature-slug>.md
+```
+
+Existing product documents are evidence, not disposable input. The product
+agent preserves them, identifies conflicts, and asks about unresolved product
+choices. `CURRENT_PRODUCT_STATE.md` remains a record of current behavior; a
+proposed change belongs in the PRD. After the PRD is explicitly approved, pass
+its path to `/orchestrate-feature` when implementation is wanted. Product spec
+mode never launches builders automatically.
+
 ## Compatibility
 
 Universal Flow can operate against any repository opened by a current Cursor or
