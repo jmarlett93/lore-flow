@@ -76,16 +76,34 @@ the harness's normal Git hosting authentication.
 
 ## Install
 
-Clone or vendor Lore Flow at a stable path outside the target repository:
+Clone Lore Flow once, outside any target repository. Cursor and Claude Code both
+read that same checkout. Cursor loads `.cursor-plugin/plugin.json`. Claude Code
+loads `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`. Keep a
+single `skills/` tree. Copying skills into a harness-specific folder, or into a
+target repo, forks the workflow.
 
 ```bash
-git clone YOUR_LORE_FLOW_REPOSITORY_URL "$HOME/tools/lore-flow"
-export LORE_FLOW_HOME="$HOME/tools/lore-flow"
+mkdir -p "$HOME/.cursor/plugins/local"
+git clone git@github.com:jmarlett93/lore-flow.git "$HOME/.cursor/plugins/local/lore-flow"
+ln -sfn "$HOME/.cursor/plugins/local/lore-flow" "$HOME/tools/lore-flow"
+export LORE_FLOW_HOME="$HOME/.cursor/plugins/local/lore-flow"
 ```
 
-The installation contains one canonical `skills/` directory. Cursor loads
-`.cursor-plugin/plugin.json`; Claude Code loads `.claude-plugin/plugin.json`. Do not copy
-or maintain separate harness-specific skill implementations.
+The directory at `~/.cursor/plugins/local/lore-flow` has to be the Git checkout
+itself. Cursor loads a local plugin only when that path is a real directory, or
+a symlink whose target stays inside `~/.cursor/plugins/local`. A symlink from
+`plugins/local/lore-flow` out to `~/tools/lore-flow` or `~/Projects/lore-flow`
+is ignored, and the skills never appear. Point the convenience paths at the
+checkout, as the `ln -sfn` above does.
+
+On Windows, clone straight into
+`%USERPROFILE%\.cursor\plugins\local\lore-flow`. A junction that leaves that
+folder has the same problem as an outside symlink.
+
+Reload the harness after the checkout is in place. Desktop: **Developer: Reload
+Window**, then confirm Customize lists the `lore-flow` plugin, its skills, and
+its agents. CLI: quit the current `agent` process and start a new one. A session
+that is already running keeps the skill list it started with.
 
 ### Optional Herdr adapter
 
@@ -94,33 +112,62 @@ workspace and `agents` tab for the run, then launches each Cursor builder in a r
 child pane while Lore Flow retains ownership of packets, worktrees, reviews, and
 recovery. See [adapters/herdr/README.md](adapters/herdr/README.md).
 
-### Cursor Desktop
+### Cursor CLI, one session
 
-Load the plugin for every Cursor workspace by linking it into Cursor's local plugin
-directory:
-
-```bash
-mkdir -p ~/.cursor/plugins/local
-ln -s "$LORE_FLOW_HOME" ~/.cursor/plugins/local/lore-flow
-```
-
-Restart Cursor or run **Developer: Reload Window**. In Cursor's customization view,
-confirm that the `lore-flow` plugin, its skills, and its custom agents are listed.
-
-On Windows, use a directory junction or copy the plugin into
-`%USERPROFILE%\.cursor\plugins\local\lore-flow`.
-
-### Cursor CLI
-
-Load Lore Flow for one session without installing it globally:
+To try a checkout without a persistent install:
 
 ```bash
 cd /path/to/target-repository
 agent --workspace "$PWD" --plugin-dir "$LORE_FLOW_HOME"
 ```
 
-The `--plugin-dir` option is useful for testing changes to Lore Flow before updating
-a shared installation.
+`--plugin-dir` applies to that process only. `~/.cursor/cli-config.json` and a
+project `.cursor/cli.json` have no plugin-directory field. An alias that injects
+`--plugin-dir` is a shell workaround, not Cursor configuration.
+
+### Cursor account install
+
+Register this repository as a user marketplace, then install the plugin. Adding
+the marketplace indexes it. The skills stay unloaded until install.
+
+```bash
+agent plugin marketplace add git@github.com:jmarlett93/lore-flow.git
+```
+
+In a new interactive session, open `/plugins` and install `lore-flow` at **user**
+scope so every workspace gets it. Project scope writes the install into that
+repository only.
+
+The CLI reads plugin installs from the workspace file
+`<repo>/.cursor/settings.json` (the working directory), alongside user installs
+stored on the Cursor account. A direct Git install looks like this:
+
+```json
+{
+  "plugins": {
+    "lore-flow": {
+      "enabled": true,
+      "gitUrl": "https://github.com/jmarlett93/lore-flow.git"
+    }
+  }
+}
+```
+
+After the marketplace is registered, a marketplace reference is enough. The key
+is `marketplace/plugin`:
+
+```json
+{
+  "plugins": {
+    "lore-flow/lore-flow": {
+      "enabled": true
+    }
+  }
+}
+```
+
+`~/.cursor/settings.json` is not the file the CLI consults for this. Putting
+the block there does not import the skills.
 
 ### Claude Code
 
@@ -142,7 +189,8 @@ claude plugin marketplace add jmarlett93/lore-flow
 claude plugin install lore-flow@lore-flow --scope project
 ```
 
-After a release version is published, update an existing installation with:
+User scope (`--scope user`) loads it in every Claude Code project. After a
+release is published, update an existing installation with:
 
 ```bash
 claude plugin update lore-flow@lore-flow
@@ -153,10 +201,61 @@ directly without marketplace caching.
 
 ### Update or remove
 
-For a cloned installation, update it with the repository's normal Git workflow, then
-reload the harness. Remove a Cursor local installation by deleting only the
-`~/.cursor/plugins/local/lore-flow` link. Session-only `--plugin-dir` loading leaves
-no installation in the target repository.
+Update a cloned installation with the repository's normal Git workflow, then
+reload the harness. Remove a Cursor local installation by deleting the checkout
+at `~/.cursor/plugins/local/lore-flow` (and any convenience symlink that points
+at it). Session-only `--plugin-dir` loading leaves no installation in the target
+repository. Remove an account marketplace with
+`agent plugin marketplace remove lore-flow`, then uninstall the plugin from
+`/plugins`.
+
+## How agents import these skills
+
+Future agents should load Lore Flow as a plugin. The target repository's
+`.agents/skills/`, `.cursor/skills/`, and `~/.cursor/skills/` are a different
+catalog (coding standards and personal skills). Copying `skills/*/SKILL.md`
+into those folders does not install Lore Flow, and it will drift from this
+checkout.
+
+Check the session's skill list before inventing an install. These ten skills
+ship in `skills/`:
+
+| Skill | Role |
+| --- | --- |
+| `product-spec` | Interview and write an approved PRD |
+| `review-prd` | Define the current-to-requested behavior frontier |
+| `orchestrate-feature` | Run or resume a full Lore Flow delivery |
+| `discover-stack` | Evidence-backed stack discovery for one area |
+| `plan-requirements` | Turn an accepted PRD into testable technical requirements |
+| `ponytail` | Adversarial scope and requirement review |
+| `sequence-prs` | Split approved requirements into a PR sequence |
+| `build-pr` | Implement one sequenced PR in its worktree |
+| `realign-run` | Apply an explicit human review and recompute impact |
+| `final-report` | Evidence-backed completion report |
+
+Cursor shows them as `/product-spec` or `/lore-flow:product-spec`, depending on
+whether the plugin namespace is prefixed. Claude Code always namespaces them:
+`/lore-flow:orchestrate-feature`. Custom agents live in `agents/cursor/` and
+`agents/claude/`; they call these skills and do not carry a second copy of the
+policy.
+
+Import order when the skills are missing:
+
+1. If `~/.cursor/plugins/local/lore-flow/.cursor-plugin/plugin.json` exists and
+   that path is a real directory, start a new agent session or reload the
+   window. The running session will not gain the skills.
+2. If that path is a symlink to somewhere else, replace it with the checkout
+   described in Install. Reloading will not fix an outside symlink.
+3. Otherwise register the marketplace and install at user scope, or pass
+   `--plugin-dir` for a single CLI session. Marketplace add alone leaves the
+   skills unloaded.
+4. For one Cursor repository, write the `plugins` block into that repo's
+   `.cursor/settings.json`, then start a new session from that repo.
+
+A session whose skills are only the target repo's `.agents/skills` plus
+`~/.cursor/skills` has not loaded this plugin. Read the skill from
+`$LORE_FLOW_HOME/skills/<name>/SKILL.md` only as a fallback while fixing the
+install. The next session should show the slash command.
 
 ## Verify the installation
 
